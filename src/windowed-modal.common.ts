@@ -2,7 +2,6 @@ import { AndroidActivityBackPressedEventData } from "tns-core-modules/applicatio
 import { Color } from "tns-core-modules/color";
 import { isIOS } from "tns-core-modules/platform";
 import * as ViewClass from "tns-core-modules/ui/core/view";
-import { View } from "tns-core-modules/ui/core/view";
 import * as utils from "tns-core-modules/utils/utils";
 
 // tslint:disable:interface-name
@@ -18,21 +17,23 @@ const DOM_ID = "_domId";
 const modalMap = new Map<number, CustomDialogOptions>();
 
 interface CustomDialogOptions {
-  owner: View;
+  owner: ViewClass.View;
   fullscreen: boolean;
   stretched: boolean;
   shownCallback: () => void;
   dismissCallback: () => void;
 }
 
+export interface ModalMessage {
+  close: () => void;
+}
+
 // call this method once
 export function overrideModalViewMethod(): void {
 
   if (isIOS) {
-    (<any>View).prototype._showNativeModalView = function (parent, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
+    (<any>ViewClass.View).prototype._showNativeModalView = function (parent, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
 
-      fullscreen = false;
-      stretched = false;
       const parentWithController = ViewClass.ios.getParentWithViewController(parent);
 
       viewCommon.prototype._showNativeModalView.call(this, parentWithController, context, closeCallback, fullscreen, animated, stretched);
@@ -86,7 +87,7 @@ export function overrideModalViewMethod(): void {
 
   } else {
     // Android
-    (<any>View).prototype._showNativeModalView = function (parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
+    (<any>ViewClass.View).prototype._showNativeModalView = function (parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
       viewCommon.prototype._showNativeModalView.call(this, parent, context, closeCallback, fullscreen, stretched);
 
       if (!this.backgroundColor) {
