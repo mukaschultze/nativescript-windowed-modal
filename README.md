@@ -1,40 +1,46 @@
-# Your Plugin Name
+# Nativescript Windowed Modal
 
-Add your plugin badges here. See [nativescript-urlhandler](https://github.com/hypery2k/nativescript-urlhandler) for example.
-
-Then describe what's the purpose of your plugin. 
-
-In case you develop UI plugin, this is where you can add some screenshots.
-
-## (Optional) Prerequisites / Requirements
-
-Describe the prerequisites that the user need to have installed before using your plugin. See [nativescript-firebase plugin](https://github.com/eddyverbruggen/nativescript-plugin-firebase) for example.
+This plugin overrides the ```showModal()``` from nativescript, making modals look and behave the same on Android and IOS.
 
 ## Installation
 
-Describe your plugin installation steps. Ideally it would be something like:
-
 ```javascript
-tns plugin add <your-plugin-name>
+tns plugin add nativescript-windowed-modal
 ```
 
-## Usage 
+## Usage
 
-Describe any usage specifics for your plugin. Give examples for Android, iOS, Angular if needed. See [nativescript-drop-down](https://www.npmjs.com/package/nativescript-drop-down) for example.
-	
-	```javascript
-    Usage code snippets here
-    ```)
+Call the ```overrideModalViewMethod()``` and register the layout element:
 
-## API
+```javascript
+import { overrideModalViewMethod } from "nativescript-windowed-modal";
 
-Describe your plugin methods and properties here. See [nativescript-feedback](https://github.com/EddyVerbruggen/nativescript-feedback) for example.
-    
-| Property | Default | Description |
-| --- | --- | --- |
-| some property | property default value | property description, default values, etc.. |
-| another property | property default value | property description, default values, etc.. |
-    
+overrideModalViewMethod();
+registerElement("ModalStack", () => require("~/ui-components/modal/modal-stack").ModalStack);
+```
+
+Wrap your modal component with a ```ModalStack``` tag (or whatever name you registered it) to layout the elements in a consistent way between platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
+
+```html
+<ModalStack>
+    <StackLayout>
+        <Label text="Hi, I'm your modal."></Label>
+    </StackLayout>
+</ModalStack>
+```
+
+You may want to create a ```.modal``` class in your .css to set margins, aligment and background color, this class is automatically set on the content of the modal:
+
+```css
+.modal {
+    margin: 20;
+    margin-top: 35;
+    horizontal-align: center;
+    vertical-align: middle;
+    background-color: white;
+}
+```
+
 ## License
 
 Apache License Version 2.0, January 2004

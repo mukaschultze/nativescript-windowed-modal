@@ -1,7 +1,7 @@
 {
     "name": "nativescript-windowed-modal",
     "version": "1.0.0",
-    "description": "Your awesome NativeScript plugin.",
+    "description": "Consistent modals for Android and iOS.",
     "main": "windowed-modal",
     "typings": "index.d.ts",
     "nativescript": {
@@ -34,8 +34,8 @@
         "iOS"
     ],
     "author": {
-        "name": "Your Name",
-        "email": "youremail@yourdomain.com"
+        "name": "Samuel Schultze",
+        "email": "samuelschultze@gmail.com"
     },
     "bugs": {
         "url": "https://github.com/MukaSchultze/nativescript-windowed-modal/issues"
