@@ -16,7 +16,7 @@ Call the ```overrideModalViewMethod()``` and register the layout element:
 import { overrideModalViewMethod } from "nativescript-windowed-modal";
 
 overrideModalViewMethod();
-registerElement("ModalStack", () => require("~/ui-components/modal/modal-stack").ModalStack);
+registerElement("ModalStack", () => require("nativescript-windowed-modal").ModalStack);
 ```
 
 Wrap your modal component with a ```ModalStack``` tag (or whatever name you registered it) to layout the elements in a consistent way between platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
