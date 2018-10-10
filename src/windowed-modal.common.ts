@@ -1,6 +1,8 @@
+import { AndroidActivityBackPressedEventData } from "tns-core-modules/application";
 import { Color } from "tns-core-modules/color";
 import { isIOS } from "tns-core-modules/platform";
 import * as ViewClass from "tns-core-modules/ui/core/view";
+import { View } from "tns-core-modules/ui/core/view";
 import * as utils from "tns-core-modules/utils/utils";
 
 // tslint:disable:interface-name
@@ -16,7 +18,7 @@ const DOM_ID = "_domId";
 const modalMap = new Map<number, CustomDialogOptions>();
 
 interface CustomDialogOptions {
-  owner: ViewClass.View;
+  owner: View;
   fullscreen: boolean;
   stretched: boolean;
   shownCallback: () => void;
@@ -27,7 +29,7 @@ interface CustomDialogOptions {
 export function overrideModalViewMethod(): void {
 
   if (isIOS) {
-    (<any>ViewClass.View).prototype._showNativeModalView = function (parent, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
+    (<any>View).prototype._showNativeModalView = function (parent, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
 
       fullscreen = false;
       stretched = false;
@@ -84,7 +86,7 @@ export function overrideModalViewMethod(): void {
 
   } else {
     // Android
-    (<any>ViewClass.View).prototype._showNativeModalView = function (parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
+    (<any>View).prototype._showNativeModalView = function (parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
       viewCommon.prototype._showNativeModalView.call(this, parent, context, closeCallback, fullscreen, stretched);
 
       if (!this.backgroundColor) {
@@ -113,7 +115,7 @@ export function overrideModalViewMethod(): void {
           onBackPressed(): void {
 
             const view = this.fragment.owner;
-            const args = {
+            const args: AndroidActivityBackPressedEventData = {
               eventName: "activityBackPressed",
               object: view,
               activity: view._context,
