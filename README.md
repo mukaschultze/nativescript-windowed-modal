@@ -13,10 +13,10 @@ tns plugin add nativescript-windowed-modal
 Call the ```overrideModalViewMethod()``` and register the layout element:
 
 ```javascript
-import { overrideModalViewMethod } from "nativescript-windowed-modal";
+import { ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal";
 
 overrideModalViewMethod();
-registerElement("ModalStack", () => require("nativescript-windowed-modal").ModalStack);
+registerElement("ModalStack", () => ModalStack);
 ```
 
 Wrap your modal component with a ```ModalStack``` tag (or whatever name you registered it) to layout the elements in a consistent way between platforms, it will also dismiss the modal when touching outsite of the frame on iOS:

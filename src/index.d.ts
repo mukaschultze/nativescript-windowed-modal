@@ -1,3 +1,3 @@
-export * from "./modal-stack";
-export * from "./windowed-modal.common";
+export { ModalStack } from "./modal-stack";
+export { overrideModalViewMethod } from "./windowed-modal.common";
 
