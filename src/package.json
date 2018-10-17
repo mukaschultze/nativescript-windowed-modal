@@ -1,8 +1,8 @@
 {
     "name": "nativescript-windowed-modal",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Consistent modals for Android and iOS.",
-    "main": "windowed-modal",
+    "main": "index",
     "typings": "index.d.ts",
     "nativescript": {
         "platforms": {

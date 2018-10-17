@@ -19,7 +19,7 @@ overrideModalViewMethod();
 registerElement("ModalStack", () => ModalStack);
 ```
 
-Wrap your modal component with a ```ModalStack``` tag (or whatever name you registered it) to layout the elements in a consistent way between platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
+Wrap your modal component with a ```ModalStack``` tag (or whatever name you registered it) to layout the elements in a consistent way across platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
 
 ```html
 <ModalStack>

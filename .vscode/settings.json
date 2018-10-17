@@ -1,0 +1,15 @@
+{
+    "files.exclude": {
+        "**/*.js": {
+            "when": "$(basename).ts"
+        },
+        "**/*.css": {
+            "when": "$(basename).scss"
+        }
+    },
+    "typescript.tsdk": "node_modules\\typescript\\lib",
+    "typescript.preferences.quoteStyle": "double",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    }
+}
