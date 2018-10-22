@@ -1,6 +1,7 @@
-import { View } from "tns-core-modules/ui/layouts/layout-base";
+import { CSSType, View } from "tns-core-modules/ui/layouts/layout-base";
 import { StackLayout } from "tns-core-modules/ui/layouts/stack-layout/stack-layout";
 
+@CSSType("ModalStack")
 export class ModalStack extends StackLayout {
 
     constructor() {
@@ -17,10 +18,6 @@ export class ModalStack extends StackLayout {
         this.horizontalAlignment = "center";
         this.verticalAlignment = "middle";
         this.addEventListener("tap", (evt) => this.outsideTap(evt, modalView));
-
-        if (!("modal" in modalView.cssClasses)) {
-            modalView.className = modalView.className ? modalView.className + " modal" : "modal";
-        }
 
     }
 
