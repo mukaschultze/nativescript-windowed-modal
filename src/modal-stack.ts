@@ -21,7 +21,7 @@ export class ModalStack extends StackLayout {
 
     }
 
-    outsideTap(args: any, modal: View): void {
+    private outsideTap(args: any, modal: View): void {
 
         if (args.ios) {
             const view = args.ios.view;
