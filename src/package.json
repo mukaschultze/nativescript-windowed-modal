@@ -26,7 +26,7 @@
         "clean": "npm run demo.reset && npx rimraf -- node_modules package-lock.json && npm i",
         "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'",
         "prepack": "npm run build.native",
-        "copy-ufsm": "cd ./../publish && ./pack.sh && cd ~/ufsm_digital && tns plugin remove nativescript-windowed-modal && tns plugin install ~/nativescript-windowed-modal/publish/package/nativescript-windowed-modal-1.0.3.tgz"
+        "copy-ufsm": "cd ./../publish && ./pack.sh && cd ~/ufsm_digital && tns plugin remove nativescript-windowed-modal && tns plugin install ~/nativescript-windowed-modal/publish/package/nativescript-windowed-modal-5.0.0.tgz"
     },
     "keywords": [
         "NativeScript",

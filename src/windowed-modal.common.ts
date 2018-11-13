@@ -4,17 +4,10 @@ import { isIOS } from "tns-core-modules/platform";
 import * as ViewClass from "tns-core-modules/ui/core/view";
 import * as utils from "tns-core-modules/utils/utils";
 
-// tslint:disable:interface-name
-// tslint:disable:variable-name
-// tslint:disable:typedef
-// tslint:disable:space-before-function-paren
-// tslint:disable:no-shadowed-variable
-
 const viewCommon = require("ui/core/view/view-common").ViewCommon;
+const modalMap = new Map<number, CustomDialogOptions>();
 
 let DialogFragmentStatic;
-const DOM_ID = "_domId";
-const modalMap = new Map<number, CustomDialogOptions>();
 
 interface CustomDialogOptions {
     owner: ViewClass.View;
@@ -24,27 +17,21 @@ interface CustomDialogOptions {
     dismissCallback: () => void;
 }
 
-export interface ModalMessage {
-    close: () => void;
-}
-
+// https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.android.ts
 export function overrideModalViewMethod(): void {
-    (<any>ViewClass.View).prototype._showNativeModalView = function (parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
-        if (isIOS) {
-            iosModal.call(this, parent, context, closeCallback, fullscreen, animated, stretched);
-        }
-        else {
-            androidModal.call(this, parent, context, closeCallback, fullscreen, animated, stretched);
-        }
-    };
+    if (isIOS) {
+        (<any>ViewClass.View).prototype._showNativeModalView = iosModal;
+    } else {
+        (<any>ViewClass.View).prototype._showNativeModalView = androidModal;
+    }
 }
 
 function iosModal(parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
 
     const parentWithController = ViewClass.ios.getParentWithViewController(parent);
-
     viewCommon.prototype._showNativeModalView.call(this, parentWithController, context, closeCallback, fullscreen, animated, stretched);
     let controller = this.viewController;
+
     if (!controller) {
         const nativeView = this.ios || this.nativeViewProtected;
         controller = ViewClass.ios.UILayoutViewController.initWithOwner(new WeakRef(this));
@@ -94,6 +81,8 @@ function iosModal(parent: any, context: any, closeCallback: () => void, fullscre
 
 function androidModal(parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
 
+    const DOM_ID = "_domId";
+
     viewCommon.prototype._showNativeModalView.call(this, parent, context, closeCallback, fullscreen, stretched);
 
     if (!this.backgroundColor) {
@@ -107,7 +96,6 @@ function androidModal(parent: any, context: any, closeCallback: () => void, full
 
         if (DialogFragmentStatic) { return DialogFragmentStatic; }
 
-        // tslint:disable:max-classes-per-file
         class CustomDialogImpl extends android.app.Dialog {
 
             constructor(
@@ -200,6 +188,7 @@ function androidModal(parent: any, context: any, closeCallback: () => void, full
                 }
 
                 const owner = this.owner;
+
                 if (!owner.isLoaded) {
                     owner.callLoaded();
                 }
@@ -233,11 +222,11 @@ function androidModal(parent: any, context: any, closeCallback: () => void, full
     };
 
     initializeDialogFragment();
-    const df = new DialogFragmentStatic();
     const args = new android.os.Bundle();
-
     args.putInt(DOM_ID, this._domId);
-    df.setArguments(args);
+
+    this._dialogFragment = new DialogFragmentStatic();
+    this._dialogFragment.setArguments(args);
 
     const dialogOptions: CustomDialogOptions = {
         owner: this,
@@ -248,7 +237,6 @@ function androidModal(parent: any, context: any, closeCallback: () => void, full
     };
 
     modalMap.set(dialogOptions.owner._domId, dialogOptions);
-    this._dialogFragment = df;
     viewCommon.prototype._raiseShowingModallyEvent.call(this);
     this._dialogFragment.show(parent._getRootFragmentManager(), this._domId.toString());
 
