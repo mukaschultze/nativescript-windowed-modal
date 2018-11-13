@@ -2,6 +2,8 @@
 
 This plugin overrides the ```showModal()``` from nativescript, making modals look and behave the same on Android and IOS.
 
+**NativeScript 5.x only, for older versions use 1.0.3 instead.**
+
 ## Installation
 
 ```javascript
