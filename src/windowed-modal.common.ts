@@ -17,19 +17,28 @@ interface CustomDialogOptions {
     dismissCallback: () => void;
 }
 
-// https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.android.ts
 export function overrideModalViewMethod(): void {
-    if (isIOS) {
-        (<any>ViewClass.View).prototype._showNativeModalView = iosModal;
-    } else {
-        (<any>ViewClass.View).prototype._showNativeModalView = androidModal;
-    }
+    (<any>ViewClass.View).prototype._showNativeModalView = isIOS ? iosModal : androidModal;
 }
 
+// https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.ios.ts
 function iosModal(parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
 
     const parentWithController = ViewClass.ios.getParentWithViewController(parent);
-    viewCommon.prototype._showNativeModalView.call(this, parentWithController, context, closeCallback, fullscreen, animated, stretched);
+
+    if (!parentWithController) {
+        throw new Error(`Could not find parent with viewController for ${parent} while showing modal view.`);
+    }
+
+    const parentController = parentWithController.viewController;
+
+    if (!parentController.view.window) {
+        throw new Error("Parent page is not part of the window hierarchy. Close the current modal page before showing another one!");
+    }
+
+    this._setupAsRootView({});
+    viewCommon.prototype._showNativeModalView.call(this, parentWithController, context, closeCallback, fullscreen, stretched);
+
     let controller = this.viewController;
 
     if (!controller) {
@@ -41,14 +50,6 @@ function iosModal(parent: any, context: any, closeCallback: () => void, fullscre
         }
 
         this.viewController = controller;
-    }
-
-    this._setupAsRootView({});
-
-    const parentController = parentWithController.viewController;
-
-    if (!parentController.view.window) {
-        throw new Error("Parent page is not part of the window hierarchy. Close the current modal page before showing another one!");
     }
 
     if (fullscreen) {
@@ -79,6 +80,7 @@ function iosModal(parent: any, context: any, closeCallback: () => void, fullscre
 
 }
 
+// https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.android.ts
 function androidModal(parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
 
     const DOM_ID = "_domId";
