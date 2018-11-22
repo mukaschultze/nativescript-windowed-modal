@@ -1,6 +1,6 @@
 # Nativescript Windowed Modal
 
-This plugin overrides the ```showModal()``` from nativescript, making modals look and behave the same on Android and IOS.
+This plugin overrides the `showModal()` from nativescript, making modals look and behave the same on Android and iOS.
 
 **NativeScript 5.x only, for older versions use 1.0.3 instead.**
 
@@ -14,18 +14,18 @@ tns plugin add nativescript-windowed-modal
 
 ### Code
 
-Call the ```overrideModalViewMethod()``` once before starting the app and register the layout element:
+Call the `overrideModalViewMethod()` once before starting the app and register the layout element:
 
 #### Javascript
 
-```javascript
+```js
 var windowedModal = require("nativescript-windowed-modal");
 windowedModal.overrideModalViewMethod();
 ```
 
 #### Typescript
 
-```typescript
+```ts
 import { ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal";
 
 overrideModalViewMethod();
@@ -34,13 +34,13 @@ registerElement("ModalStack", () => ModalStack);
 
 ### Layout
 
-Wrap your modal component with a ```ModalStack``` tag to layout the elements in a consistent way across platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
+Wrap your modal component with a `ModalStack` tag to layout the elements in a consistent way across platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
 
 #### XML
 
 ```xml
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:modal="nativescript-windowed-modal">
-    <modal:ModalStack>
+    <modal:ModalStack class="modal-container">
         <StackLayout class="modal">
             <Label text="Hi, I'm your modal" class="text-center" textWrap="true"/>
         </StackLayout>
@@ -60,20 +60,28 @@ Wrap your modal component with a ```ModalStack``` tag to layout the elements in 
 
 ### Style
 
-You may want to create a ```.modal``` class in your .css to set margins, aligment and background color:
+You may want to create the `.modal` and `.modal-container` classes in your .css to set margins, aligment and background color:
 
 ```css
 .modal {
     margin: 20;
     margin-top: 35;
-    padding: 25;
-    padding-bottom: 10;
     border-radius: 8;
     horizontal-align: center;
     vertical-align: middle;
     background-color: white;
 }
+
+.modal-container{
+    padding: 25;
+    padding-bottom: 10;
+}
 ```
+
+## Known Issues
+
+- Padding won't apply on children of the `ModalStack`, wrapping them with a `StackLayout` fixes the problem;
+- Auto width is kinda buggy on some situations, set a fixed width for children of `ModalStack` when possible;
 
 ## License
 

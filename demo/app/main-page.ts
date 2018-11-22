@@ -1,7 +1,7 @@
 import * as observable from 'tns-core-modules/data/observable';
 import { Page } from 'tns-core-modules/ui/page';
 
-let mainPage;
+let mainPage: Page;
 
 export function pageLoaded(args: observable.EventData) {
     mainPage = <Page>args.object;
