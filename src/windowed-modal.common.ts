@@ -62,6 +62,9 @@ function iosModal(parent: any, context: any, closeCallback: () => void, fullscre
         controller.view.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, 0.5);
     }
 
+    this.horizontalAlignment = "center";
+    this.verticalAlignment = "middle";
+
     this._raiseShowingModallyEvent();
     animated = animated === undefined ? true : !!animated;
     (<any>controller).animated = animated;
