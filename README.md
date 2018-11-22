@@ -2,7 +2,7 @@
 
 This plugin overrides the `showModal()` from nativescript, making modals look and behave the same on Android and iOS.
 
-**NativeScript 5.x only, for older versions use 1.0.3 instead.**
+**NativeScript 5.x only, for older NS versions use 1.0.3 instead.**
 
 ## Installation
 
@@ -72,7 +72,7 @@ You may want to create the `.modal` and `.modal-container` classes in your .css 
     background-color: white;
 }
 
-.modal-container{
+.modal-container {
     padding: 25;
     padding-bottom: 10;
 }
