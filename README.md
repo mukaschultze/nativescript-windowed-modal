@@ -6,22 +6,47 @@ This plugin overrides the ```showModal()``` from nativescript, making modals loo
 
 ## Installation
 
-```javascript
+```cmd
 tns plugin add nativescript-windowed-modal
 ```
 
 ## Usage
 
-Call the ```overrideModalViewMethod()``` and register the layout element:
+### Code
+
+Call the ```overrideModalViewMethod()``` once before starting the app and register the layout element:
+
+#### Javascript
 
 ```javascript
+var windowedModal = require("nativescript-windowed-modal");
+windowedModal.overrideModalViewMethod();
+```
+
+#### Typescript
+
+```typescript
 import { ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal";
 
 overrideModalViewMethod();
 registerElement("ModalStack", () => ModalStack);
 ```
 
-Wrap your modal component with a ```ModalStack``` tag (or whatever name you registered it) to layout the elements in a consistent way across platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
+### Layout
+
+Wrap your modal component with a ```ModalStack``` tag to layout the elements in a consistent way across platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
+
+#### XML
+
+```xml
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:modal="nativescript-windowed-modal">
+    <modal:ModalStack class="modal">
+        <Label text="Hi, I'm your modal."/>
+    </modal:ModalStack>
+</Page>
+```
+
+#### HTML (Angular)
 
 ```html
 <ModalStack class="modal-container">
@@ -30,6 +55,8 @@ Wrap your modal component with a ```ModalStack``` tag (or whatever name you regi
     </StackLayout>
 </ModalStack>
 ```
+
+### Style
 
 You may want to create a ```.modal``` class in your .css to set margins, aligment and background color:
 
