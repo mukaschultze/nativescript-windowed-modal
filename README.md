@@ -40,8 +40,10 @@ Wrap your modal component with a ```ModalStack``` tag to layout the elements in 
 
 ```xml
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:modal="nativescript-windowed-modal">
-    <modal:ModalStack class="modal">
-        <Label text="Hi, I'm your modal."/>
+    <modal:ModalStack>
+        <StackLayout class="modal">
+            <Label text="Hi, I'm your modal" class="text-center" textWrap="true"/>
+        </StackLayout>
     </modal:ModalStack>
 </Page>
 ```
@@ -51,7 +53,7 @@ Wrap your modal component with a ```ModalStack``` tag to layout the elements in 
 ```html
 <ModalStack class="modal-container">
     <StackLayout class="modal">
-        <Label text="Hi, I'm your modal."></Label>
+        <Label text="Hi, I'm your modal" class="text-center" textWrap="true"></Label>
     </StackLayout>
 </ModalStack>
 ```
@@ -64,6 +66,9 @@ You may want to create a ```.modal``` class in your .css to set margins, aligmen
 .modal {
     margin: 20;
     margin-top: 35;
+    padding: 25;
+    padding-bottom: 10;
+    border-radius: 8;
     horizontal-align: center;
     vertical-align: middle;
     background-color: white;

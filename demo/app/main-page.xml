@@ -1,5 +1,5 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page" xmlns:ui="nativescript-windowed-modal">
-  <StackLayout class="p-20"> 
-    <Button text="Open Modal" class="t-20 text-center c-black" textWrap="true" tap="openModal"/>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page">
+  <StackLayout class="p-20" verticalAlignment="middle" horizontalAlignment="center">
+    <Button text="Open Modal" class="btn btn-primary" textWrap="true" tap="openModal"/>
   </StackLayout>
 </Page>

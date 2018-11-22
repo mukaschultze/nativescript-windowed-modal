@@ -1,7 +1,8 @@
-<Page xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:modal="nativescript-windowed-modal" shownModally="shownModally" loaded="onLoaded" >
-    <modal:ModalStack class="p-20">
-        <Label text="This is a cool label" class="t-20 text-center c-black" textWrap="true"/>
-        <Label id="contextLabel" class="t-20 text-center c-black" textWrap="true"/>
-        <Button text="Close modal" tap="buttonTap"/>
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:modal="nativescript-windowed-modal" shownModally="shownModally">
+    <modal:ModalStack>
+        <StackLayout class="modal">
+            <Label text="Hi, I'm your modal" class="text-center" textWrap="true"/>
+            <Button text="Close modal" class="btn btn-primary" tap="buttonTap"/>
+        </StackLayout>
     </modal:ModalStack>
 </Page>

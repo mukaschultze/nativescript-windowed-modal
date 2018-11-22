@@ -9,6 +9,8 @@ export function pageLoaded(args: observable.EventData) {
 
 export function openModal() {
     mainPage.showModal("./modal", "I'm the context", (response: string) => {
-        alert("Response: " + response);
+        // Response will be undefined if the modal was
+        // closed by a touch outside of the frame
+        console.log("Modal response: " + response);
     }, false);
 }
