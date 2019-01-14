@@ -8,9 +8,14 @@ export function pageLoaded(args: observable.EventData) {
 }
 
 export function openModal() {
-    mainPage.showModal("./modal", "I'm the context", (response: string) => {
-        // Response will be undefined if the modal was
-        // closed by a touch outside of the frame
-        console.log("Modal response: " + response);
-    }, false);
+    mainPage.showModal("./modal", {
+        context: "I'm the context",
+        fullscreen: false,
+        ios: { presentationStyle: UIModalPresentationStyle.FormSheet },
+        closeCallback: (response: string) => {
+            // Response will be undefined if the modal was
+            // closed by a touch outside of the frame
+            console.log("Modal response: " + response);
+        }
+    });
 }

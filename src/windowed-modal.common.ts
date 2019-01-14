@@ -2,6 +2,7 @@ import { AndroidActivityBackPressedEventData } from "tns-core-modules/applicatio
 import { Color } from "tns-core-modules/color";
 import { isIOS } from "tns-core-modules/platform";
 import * as ViewClass from "tns-core-modules/ui/core/view";
+import { ShowModalOptions } from "tns-core-modules/ui/core/view";
 import * as utils from "tns-core-modules/utils/utils";
 
 const viewCommon = require("ui/core/view/view-common").ViewCommon;
@@ -22,7 +23,7 @@ export function overrideModalViewMethod(): void {
 }
 
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.ios.ts
-function iosModal(parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
+function iosModal(parent: any, options: ShowModalOptions) {
 
     const parentWithController = ViewClass.ios.getParentWithViewController(parent);
 
@@ -37,7 +38,7 @@ function iosModal(parent: any, context: any, closeCallback: () => void, fullscre
     }
 
     this._setupAsRootView({});
-    viewCommon.prototype._showNativeModalView.call(this, parentWithController, context, closeCallback, fullscreen, stretched);
+    viewCommon.prototype._showNativeModalView.call(this, parentWithController, options);
 
     let controller = this.viewController;
 
@@ -52,7 +53,7 @@ function iosModal(parent: any, context: any, closeCallback: () => void, fullscre
         this.viewController = controller;
     }
 
-    if (fullscreen) {
+    if (options.fullscreen) {
         controller.modalPresentationStyle = UIModalPresentationStyle.FormSheet;
     } else {
         controller.providesPresentationContextTransitionStyle = true;
@@ -62,13 +63,17 @@ function iosModal(parent: any, context: any, closeCallback: () => void, fullscre
         controller.view.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, 0.5);
     }
 
+    if (options.ios && options.ios.presentationStyle) {
+        controller.modalPresentationStyle = options.ios.presentationStyle;
+    }
+
     this.horizontalAlignment = "center";
     this.verticalAlignment = "middle";
 
     this._raiseShowingModallyEvent();
-    animated = animated === undefined ? true : !!animated;
-    (<any>controller).animated = animated;
-    parentController.presentViewControllerAnimatedCompletion(controller, animated, null);
+    options.animated = options.animated === undefined ? true : !!options.animated;
+    (<any>controller).animated = options.animated;
+    parentController.presentViewControllerAnimatedCompletion(controller, options.animated, null);
 
     const transitionCoordinator = utils.ios.getter(parentController, parentController.transitionCoordinator);
 
@@ -84,11 +89,11 @@ function iosModal(parent: any, context: any, closeCallback: () => void, fullscre
 }
 
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.android.ts
-function androidModal(parent: any, context: any, closeCallback: () => void, fullscreen?: boolean, animated?: boolean, stretched?: boolean) {
+function androidModal(parent: any, options: ShowModalOptions) {
 
     const DOM_ID = "_domId";
 
-    viewCommon.prototype._showNativeModalView.call(this, parent, context, closeCallback, fullscreen, stretched);
+    viewCommon.prototype._showNativeModalView.call(this, parent, options);
 
     if (!this.backgroundColor) {
         this.backgroundColor = new Color("transparent");
@@ -235,8 +240,8 @@ function androidModal(parent: any, context: any, closeCallback: () => void, full
 
     const dialogOptions: CustomDialogOptions = {
         owner: this,
-        fullscreen: !!fullscreen,
-        stretched: !!stretched,
+        fullscreen: !!options.fullscreen,
+        stretched: !!options.stretched,
         shownCallback: () => this._raiseShownModallyEvent(),
         dismissCallback: () => this.closeModal()
     };
