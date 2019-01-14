@@ -33,7 +33,7 @@ function iosModal(parent: any, options: ShowModalOptions) {
 
     const parentController = parentWithController.viewController;
 
-    if (!parentController.view.window) {
+    if (!parentController.view || !parentController.view.window) {
         throw new Error("Parent page is not part of the window hierarchy. Close the current modal page before showing another one!");
     }
 
@@ -65,6 +65,15 @@ function iosModal(parent: any, options: ShowModalOptions) {
 
     if (options.ios && options.ios.presentationStyle) {
         controller.modalPresentationStyle = options.ios.presentationStyle;
+
+        if (options.ios.presentationStyle === UIModalPresentationStyle.Popover) {
+            const popoverPresentationController = controller.popoverPresentationController;
+            const view = parent.nativeViewProtected;
+            // Note: sourceView and sourceRect are needed to specify the anchor location for the popover.
+            // Note: sourceView should be the button triggering the modal. If it the Page the popover might appear "behind" the page content
+            popoverPresentationController.sourceView = view;
+            popoverPresentationController.sourceRect = CGRectMake(0, 0, view.frame.size.width, view.frame.size.height);
+        }
     }
 
     this.horizontalAlignment = "center";
