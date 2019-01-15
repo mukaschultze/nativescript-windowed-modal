@@ -14,7 +14,6 @@ export function openModal1() {
             message: "I'm the context"
         },
         fullscreen: false,
-        ios: { presentationStyle: UIModalPresentationStyle.FormSheet },
         closeCallback: (response: string) => {
             // Response will be undefined if the modal was
             // closed by a touch outside of the frame
@@ -30,7 +29,6 @@ export function openModal2() {
             message: "I'm the context"
         },
         fullscreen: false,
-        ios: { presentationStyle: UIModalPresentationStyle.FormSheet },
         closeCallback: (response: string) => {
             // Response will be undefined if the modal was
             // closed by a touch outside of the frame
@@ -48,7 +46,6 @@ export function openModal3() {
         },
         fullscreen: false,
         dimAmount: 0.1,
-        ios: { presentationStyle: UIModalPresentationStyle.FormSheet },
         closeCallback: (response: string) => {
             // Response will be undefined if the modal was
             // closed by a touch outside of the frame
@@ -64,7 +61,6 @@ export function openModal4() {
             message: "I'm the context"
         },
         fullscreen: false,
-        ios: { presentationStyle: UIModalPresentationStyle.FormSheet },
         closeCallback: (response: string) => {
             // Response will be undefined if the modal was
             // closed by a touch outside of the frame
@@ -80,7 +76,6 @@ export function openModal5() {
             message: "I'm the context"
         },
         fullscreen: true,
-        ios: { presentationStyle: UIModalPresentationStyle.FormSheet },
         closeCallback: (response: string) => {
             // Response will be undefined if the modal was
             // closed by a touch outside of the frame
@@ -95,7 +90,6 @@ export function openModal6() {
             message: "I'm the context"
         },
         fullscreen: true,
-        ios: { presentationStyle: UIModalPresentationStyle.FormSheet },
         closeCallback: (response: string) => {
             // Response will be undefined if the modal was
             // closed by a touch outside of the frame
