@@ -1,5 +1,10 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page">
   <StackLayout class="p-20" verticalAlignment="middle" horizontalAlignment="center">
-    <Button text="Open Modal" class="btn btn-primary" textWrap="true" tap="openModal"/>
+    <Button text="Open Modal (No dim)" class="btn btn-primary" textWrap="true" tap="openModal1"/>
+    <Button text="Open Modal (Transparent)" class="btn btn-primary" textWrap="true" tap="openModal2"/>
+    <Button text="Open Modal (Color)" class="btn btn-primary" textWrap="true" tap="openModal3"/>
+    <Button text="Open Modal (Solid)" class="btn btn-primary" textWrap="true" tap="openModal4"/>
+    <Button text="Open Modal (Fullscreen, dim)" class="btn btn-primary" textWrap="true" tap="openModal5"/>
+    <Button text="Open Modal (Fullscreen, no dim)" class="btn btn-primary" textWrap="true" tap="openModal6"/>
   </StackLayout>
 </Page>

@@ -1,6 +1,6 @@
 import { AndroidActivityBackPressedEventData } from "tns-core-modules/application";
 import { Color } from "tns-core-modules/color";
-import { isIOS } from "tns-core-modules/platform";
+import { isIOS, screen } from "tns-core-modules/platform";
 import * as ViewClass from "tns-core-modules/ui/core/view";
 import { ShowModalOptions } from "tns-core-modules/ui/core/view";
 import * as utils from "tns-core-modules/utils/utils";
@@ -16,6 +16,11 @@ interface CustomDialogOptions {
     stretched: boolean;
     shownCallback: () => void;
     dismissCallback: () => void;
+    dimAmount: number;
+}
+
+export interface ExtendedShowModalOptions extends ShowModalOptions {
+    dimAmount?: number;
 }
 
 export function overrideModalViewMethod(): void {
@@ -23,8 +28,10 @@ export function overrideModalViewMethod(): void {
 }
 
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.ios.ts
-function iosModal(parent: any, options: ShowModalOptions) {
+function iosModal(parent: any, options: ExtendedShowModalOptions) {
 
+    const dimAmount = options.dimAmount !== undefined ? +options.dimAmount : 0.5;
+    const dimmingColor = this.backgroundColor || (this.content ? this.content.backgroundColor : undefined);
     const parentWithController = ViewClass.ios.getParentWithViewController(parent);
 
     if (!parentWithController) {
@@ -60,7 +67,10 @@ function iosModal(parent: any, options: ShowModalOptions) {
         controller.definesPresentationContext = true;
         controller.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
         controller.modalTransitionStyle = UIModalTransitionStyle.CoverVertical;
-        controller.view.backgroundColor = UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, 0.5);
+
+        controller.view.backgroundColor = dimmingColor ?
+            UIColor.colorWithRedGreenBlueAlpha(dimmingColor.r, dimmingColor.g, dimmingColor.b, dimmingColor.a) :
+            UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, dimAmount);
     }
 
     if (options.ios && options.ios.presentationStyle) {
@@ -98,7 +108,7 @@ function iosModal(parent: any, options: ShowModalOptions) {
 }
 
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.android.ts
-function androidModal(parent: any, options: ShowModalOptions) {
+function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
     const DOM_ID = "_domId";
 
@@ -106,6 +116,13 @@ function androidModal(parent: any, options: ShowModalOptions) {
 
     if (!this.backgroundColor) {
         this.backgroundColor = new Color("transparent");
+
+        setTimeout(() => {
+            this.width = screen.mainScreen.widthDIPs + 1;
+            this.height = screen.mainScreen.heightDIPs + 1;
+            this.horizontalAlignment = "stretch";
+            this.verticalAlignment = "stretch";
+        }, 5);
     }
 
     this._setupUI(parent._context);
@@ -170,7 +187,9 @@ function androidModal(parent: any, options: ShowModalOptions) {
                 this._dismissCallback = options.dismissCallback;
                 this._shownCallback = options.shownCallback;
                 this.owner._dialogFragment = this;
+
                 this.setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, 0);
+
                 const dialog = new CustomDialogImpl(this, this.getActivity(), this.getTheme());
 
                 if (!this._fullscreen && !this._stretched) {
@@ -182,7 +201,9 @@ function androidModal(parent: any, options: ShowModalOptions) {
                 }
 
                 const window = dialog.getWindow();
+
                 window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
+                window.setDimAmount(options.dimAmount);
 
                 return dialog;
             }
@@ -252,7 +273,8 @@ function androidModal(parent: any, options: ShowModalOptions) {
         fullscreen: !!options.fullscreen,
         stretched: !!options.stretched,
         shownCallback: () => this._raiseShownModallyEvent(),
-        dismissCallback: () => this.closeModal()
+        dismissCallback: () => this.closeModal(),
+        dimAmount: options.dimAmount !== undefined ? +options.dimAmount : 0.5
     };
 
     modalMap.set(dialogOptions.owner._domId, dialogOptions);
