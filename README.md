@@ -113,7 +113,7 @@ You may want to create the `.modal` and `.modal-container` classes in your .css 
 
 ## Changelog
 
-### v5.0.3
+### v5.0.4
 
 - Support for dimAmount and dismissEnabled properties
 
