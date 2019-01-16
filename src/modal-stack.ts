@@ -1,9 +1,11 @@
 import { GestureEventData } from "tns-core-modules/ui/gestures/gestures";
-import { CSSType, isIOS, layout, LayoutBase, View } from "tns-core-modules/ui/layouts/layout-base";
+import { booleanConverter, CSSType, isIOS, layout, LayoutBase, View } from "tns-core-modules/ui/layouts/layout-base";
 import { StackLayout } from "tns-core-modules/ui/layouts/stack-layout/stack-layout";
 
 @CSSType("ModalStack")
 export class ModalStack extends StackLayout {
+
+    dismissEnabled: string = "true";
 
     constructor() {
         super();
@@ -23,6 +25,10 @@ export class ModalStack extends StackLayout {
     }
 
     private outsideTap(args: GestureEventData, modal: View): void {
+
+        if (!booleanConverter(this.dismissEnabled)) {
+            return; // Don't close the modal
+        }
 
         if (isIOS) {
             const iosMotion = args.ios;

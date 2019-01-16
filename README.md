@@ -23,24 +23,48 @@ var windowedModal = require("nativescript-windowed-modal");
 windowedModal.overrideModalViewMethod();
 ```
 
-#### Typescript
+#### Typescript+Angular
 
 ```ts
-import { ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal";
+import { ExtendedShowModalOptions, ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal";
 
 overrideModalViewMethod();
 registerElement("ModalStack", () => ModalStack);
 ```
 
+You can pass extended options like this:
+
+```ts
+mainPage.showModal("./modal", {
+    context: "I'm the context",
+    closeCallback: (response: string) => console.log("Modal response: " + response),
+    dimAmount: 0.5 // Sets the alpha of the background dim
+} as ExtendedShowModalOptions);
+```
+
+### Properties
+
+#### [ExtendedShowModalOptions](../master/src/windowed-modal.common.ts#L13)
+
+| Property | Type | Platform | Default | Description |
+| -------- | ---- | -------- | ------- | ----------- |
+| dimAmount? | number | both | 0.5 | Controls the alpha value of the dimming color. On android, setting this to 0 disables the fade in animation. On iOS this value will be replaced with the alpha of the background color if it is set.
+
+#### [ModalStack](../master/src/modal-stack.ts#L8)
+
+| Property | Type | Platform | Default | Description |
+| -------- | ---- | -------- | ------- | ----------- |
+| dismissEnabled | boolean | both | true | If set to true, the modal is allowed to close when touching outside of the content frame
+
 ### Layout
 
-Wrap your modal component with a `ModalStack` tag to layout the elements in a consistent way across platforms, it will also dismiss the modal when touching outsite of the frame on iOS:
+Wrap your modal component with a `ModalStack` tag to layout the elements in a consistent way across platforms, it will also allows you to dismiss the modal when touching outsite of the frame:
 
 #### XML
 
 ```xml
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" xmlns:modal="nativescript-windowed-modal">
-    <modal:ModalStack class="modal-container">
+    <modal:ModalStack dismissEnabled="true" class="modal-container">
         <StackLayout class="modal">
             <Label text="Hi, I'm your modal" class="text-center" textWrap="true"/>
         </StackLayout>
@@ -51,7 +75,7 @@ Wrap your modal component with a `ModalStack` tag to layout the elements in a co
 #### HTML (Angular)
 
 ```html
-<ModalStack class="modal-container">
+<ModalStack dismissEnabled="true" class="modal-container">
     <StackLayout class="modal">
         <Label text="Hi, I'm your modal" class="text-center" textWrap="true"></Label>
     </StackLayout>
@@ -77,6 +101,19 @@ You may want to create the `.modal` and `.modal-container` classes in your .css 
     padding-bottom: 10;
 }
 ```
+
+## Running the demo app
+
+1. Clone this repo
+2. `cd src`
+3. `npm install && npm run plugin.prepare`
+4. `npm run demo.android` or `npm run demo.ios`
+
+## Changelog
+
+### v5.0.3
+
+- Support for dimAmount and dismissEnabled properties
 
 ## Known Issues
 

@@ -72,7 +72,7 @@ export function openModal4() {
 export function openModal5() {
     mainPage.showModal("./modal", {
         context: {
-            dim: "#FFFF0000",
+            dim: "#5C00FFDD",
             message: "I'm the context"
         },
         fullscreen: true,
