@@ -23,6 +23,6 @@
   },
   "scripts": {
     "build.plugin": "cd ../src && npm run plugin.prepare",
-    "ci.tslint": "npm i && tslint --config '../tslint.json' 'app/**/*.ts' --exclude './**/node_modules/**'"
+    "ci.tslint": "npm remove nativescript-windowed-modal && npm i && tslint --config '../tslint.json' 'app/**/*.ts' --exclude './**/node_modules/**' && tns plugin add ../src"
   }
 }
