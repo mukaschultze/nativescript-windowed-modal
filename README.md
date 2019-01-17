@@ -1,6 +1,8 @@
 # Nativescript Windowed Modal ![apple](https://cdn3.iconfinder.com/data/icons/picons-social/57/16-apple-32.png) ![android](https://cdn4.iconfinder.com/data/icons/logos-3/228/android-32.png)
 
-[![npm version](https://badge.fury.io/js/nativescript-windowed-modal.svg)](http://badge.fury.io/js/nativescript-windowed-modal) [![Build Status](https://travis-ci.com/mukaschultze/nativescript-windowed-modal.svg?branch=master)](https://travis-ci.com/mukaschultze/nativescript-windowed-modal)
+[![npm version](https://badge.fury.io/js/nativescript-windowed-modal.svg)](http://badge.fury.io/js/nativescript-windowed-modal)
+[![npm downloads](https://img.shields.io/npm/dm/nativescript-windowed-modal.svg)](http://badge.fury.io/js/nativescript-windowed-modal)
+[![Build Status](https://travis-ci.com/mukaschultze/nativescript-windowed-modal.svg?branch=master)](https://travis-ci.com/mukaschultze/nativescript-windowed-modal)
 
 This plugin overrides the `showModal()` from nativescript, making modals look and behave the same on Android and iOS.
 
@@ -50,7 +52,7 @@ mainPage.showModal("./modal", {
 
 | Property | Type | Platform | Default | Description |
 | -------- | ---- | -------- | ------- | ----------- |
-| dimAmount? | number | both | 0.5 | Controls the alpha value of the dimming color. On android, setting this to 0 disables the fade in animation. On iOS this value will be replaced with the alpha of the background color if it is set.
+| dimAmount? | number | both | 0.5 | Controls the alpha value of the dimming color. On Android, setting this to 0 disables the fade in animation. On iOS this value will be replaced with the alpha of the background color if it is set.
 
 #### [ModalStack](../master/src/modal-stack.ts#L8)
 
