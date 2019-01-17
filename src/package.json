@@ -15,10 +15,10 @@
         "plugin.tscwatch": "npm run tsc -- -w",
         "demo.ios": "npm run tsc && cd ../demo && tns run ios --syncAllFiles --emulator",
         "demo.android": "npm run tsc && cd ../demo && tns run android --syncAllFiles --emulator",
-        "demo.reset": "cd ../demo && npx rimraf -- hooks node_modules platforms package-lock.json",
-        "plugin.prepare": "npm i && npm run tsc && cd ../demo && tns plugin remove nativescript-windowed-modal && tns plugin add ../src",
-        "clean": "npm run demo.reset && npx rimraf -- node_modules package-lock.json && npm i",
-        "ci.tslint": "npm i && tslint './**/*.ts' --config '../tslint.json' --exclude './**/node_modules/**'"
+        "demo.reset": "cd ../demo && npx rimraf -- hooks node_modules platforms",
+        "plugin.prepare": "npm run tsc && cd ../demo && tns plugin remove nativescript-windowed-modal && tns plugin add ../src",
+        "ci.install": "cd .. && git clean -dfx && cd demo && npm ci && cd ../src && npm ci",
+        "ci.tslint": "npm run ci.install && tslint './**/*.ts' --config '../tslint.json' --exclude './**/node_modules/**'"
     },
     "keywords": [
         "NativeScript",
@@ -46,8 +46,8 @@
         "prompt": "^1.0.0",
         "rimraf": "^2.6.3",
         "semver": "^5.5.0",
-        "tns-core-modules": "^5.1.1",
-        "tns-platform-declarations": "^5.1.1",
+        "tns-core-modules": "^5.1.2",
+        "tns-platform-declarations": "^5.1.2",
         "tslint": "^5.12.1",
         "typescript": "~2.8.2"
     },

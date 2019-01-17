@@ -4,7 +4,7 @@ matrix:
       language: node_js
       os: linux
       node_js: "8"
-      script: rm -rf ./**/package-lock.json && cd src && npm run ci.tslint && cd ../demo && npm run ci.tslint
+      script: cd src && npm run ci.tslint && cd ../demo && npm run ci.tslint
     - stage: "WebPack, Build"
       os: osx
       env:
@@ -13,22 +13,21 @@ matrix:
       language: node_js 
       node_js: "8"
       jdk: oraclejdk8
-      script: rm -rf ./**/package-lock.json && cd demo && npm run build.plugin && npm i && tns build ios --bundle --env.uglify
+      script: cd demo && npm run ci.install && npm run build.ios.webpack
     - language: android
       os: linux
       env:
         - WebPack="Android"
       jdk: oraclejdk8
       before_install: nvm install 8
-      script: rm -rf ./**/package-lock.json && cd demo && npm run build.plugin && npm i && tns build android --bundle --env.uglify --env.snapshot
+      script: cd demo && npm run ci.install && npm run build.android.webpack
     - language: android
       env: 
         - BuildAndroid="28"
       os: linux
       jdk: oraclejdk8
       before_install: nvm install stable
-      script:
-        - rm -rf ./**/package-lock.json && cd src && npm i && npm run tsc && cd ../demo && tns build android
+      script: cd demo && npm run ci.install && npm run build.android
     - os: osx
       env: 
         - BuildiOS="12"
@@ -37,8 +36,7 @@ matrix:
       language: node_js 
       node_js: "8"
       jdk: oraclejdk8
-      script: 
-        - rm -rf ./**/package-lock.json && cd src && npm i && npm run tsc && cd ../demo && tns build ios
+      script: cd demo && npm run ci.install && npm run build.ios
 
 android:
   components:

@@ -11,18 +11,22 @@
   "dependencies": {
     "nativescript-theme-core": "^1.0.4",
     "nativescript-windowed-modal": "file:../src",
-    "tns-core-modules": "^5.1.1"
+    "tns-core-modules": "^5.1.2"
   },
   "devDependencies": {
     "nativescript-css-loader": "~0.26.1",
-    "nativescript-dev-typescript": "~0.7.4",
+    "nativescript-dev-typescript": "^0.7.9",
     "nativescript-dev-webpack": "~0.17.0",
-    "tns-platform-declarations": "^5.1.0",
+    "tns-platform-declarations": "^5.1.2",
     "tslint": "~5.11.0",
     "typescript": "~2.8.2"
   },
   "scripts": {
-    "build.plugin": "cd ../src && npm run plugin.prepare",
-    "ci.tslint": "npm remove nativescript-windowed-modal && npm i && tslint --config '../tslint.json' 'app/**/*.ts' --exclude './**/node_modules/**' && tns plugin add ../src"
+    "build.ios": "cd ../src && npm run plugin.prepare && cd ../demo && tns build ios",
+    "build.ios.webpack": "cd ../src && npm run plugin.prepare && cd ../demo && tns build ios --bundle --env.uglify",
+    "build.android": "cd ../src && npm run plugin.prepare && cd ../demo && tns build android",
+    "build.android.webpack": "cd ../src && npm run plugin.prepare && cd ../demo && tns build android --bundle --env.uglify --env.snapshot",
+    "ci.install": "cd .. && git clean -dfx && cd demo && npm ci && cd ../src && npm ci",
+    "ci.tslint": "npm run ci.install && tslint 'app/**/*.ts' --config '../tslint.json' --exclude './**/node_modules/**'"
   }
 }
