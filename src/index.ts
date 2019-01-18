@@ -1,3 +1,3 @@
-export { ModalStack } from "./modal-stack";
-export { overrideModalViewMethod } from "./windowed-modal.common";
-
+export { ModalStack } from './modal-stack'
+export { default as VueWindowedModal } from './vue-windowed-modal'
+export { overrideModalViewMethod } from './windowed-modal.common'
