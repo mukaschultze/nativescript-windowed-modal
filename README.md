@@ -69,14 +69,22 @@ Vue.use(VueWindowedModal)
 
 You can pass extended options like this:
 
-```js
-this.$showModal('./modal, {
-  props: {},
-  fullscreen: false,
-  animated: true,
-  stretched: false,
-  dimAmount: 0.5 // Sets the alpha of the background dim,
-})
+```html
+<script type="text/javascript">
+  export default {
+    methods: {
+      openModalTap() {
+        this.$showModal('./modal', {
+          props: {},
+          fullscreen: false,
+          animated: true,
+          stretched: false,
+          dimAmount: 0.5 // Sets the alpha of the background dim,
+        })
+      }
+    }
+  }
+</script>
 ```
 
 ### Properties
