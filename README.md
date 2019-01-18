@@ -46,16 +46,6 @@ mainPage.showModal('./modal', {
 } as ExtendedShowModalOptions)
 ```
 
-You can pass extended options like this:
-
-```ts
-mainPage.showModal('./modal', {
-  context: "I'm the context",
-  closeCallback: (response: string) => console.log('Modal response: ' + response),
-  dimAmount: 0.5 // Sets the alpha of the background dim
-} as ExtendedShowModalOptions)
-```
-
 #### NativeScript-Vue
 
 ```js
@@ -123,7 +113,9 @@ Wrap your modal component with a `ModalStack` tag to layout the elements in a co
 
 ```html
 <ModalStack dismissEnabled="true" class="modal-container">
-  <StackLayout class="modal"> <label text="Hi, I'm your modal" class="text-center" textWrap="true"></label> </StackLayout>
+  <StackLayout class="modal">
+    <Label text="Hi, I'm your modal" class="text-center" textWrap="true"></Label>
+  </StackLayout>
 </ModalStack>
 ```
 

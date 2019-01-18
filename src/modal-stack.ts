@@ -5,57 +5,57 @@ import { HorizontalAlignment, VerticalAlignment } from 'tns-core-modules/ui/styl
 
 @CSSType('ModalStack')
 export class ModalStack extends StackLayout {
-  dismissEnabled: string = 'true';
-  verticalPosition: VerticalAlignment = 'middle';
-  horizontalPosition: HorizontalAlignment = 'center';
+    dismissEnabled: string = 'true';
+    verticalPosition: VerticalAlignment = 'middle';
+    horizontalPosition: HorizontalAlignment = 'center';
 
-  constructor() {
-    super();
-  }
-
-  onLoaded (): void {
-    super.onLoaded();
-
-    const modalView = <LayoutBase>this.getChildAt(0);
-
-    this.set('height', '100%');
-    this.set('width', '100%');
-    this.horizontalAlignment = this.horizontalPosition;
-    this.verticalAlignment = this.verticalPosition;
-    this.on('tap', evt => this.outsideTap(evt as GestureEventData, modalView));
-  }
-
-  private outsideTap (args: GestureEventData, modal: View): void {
-    if (!booleanConverter(this.dismissEnabled)) {
-      return; // Don't close the modal
+    constructor() {
+        super();
     }
 
-    if (isIOS) {
-      const iosMotion = args.ios;
-      const view = iosMotion.view;
-      const tapPos = iosMotion.locationInView(view);
-      const modalFrame = modal.ios.frame;
-      const insideRect = CGRectContainsPoint(modalFrame, tapPos);
+    onLoaded (): void {
+        super.onLoaded();
 
-      if (insideRect) {
-        // Touched inside, don't close.
-        return;
-      }
-    } else {
-      const androidMotion: android.view.MotionEvent = args.android;
-      const x = androidMotion.getRawX() - layout.toDevicePixels(this.getLocationOnScreen().x);
-      const y = androidMotion.getRawY() - layout.toDevicePixels(this.getLocationOnScreen().y);
-      const rect = new android.graphics.Rect();
+        const modalView = <LayoutBase>this.getChildAt(0);
 
-      modal.android.getHitRect(rect);
-      const insideRect = rect.contains(x, y);
-
-      if (insideRect) {
-        // Touched inside, don't close.
-        return;
-      }
+        this.set('height', '100%');
+        this.set('width', '100%');
+        this.horizontalAlignment = this.horizontalPosition;
+        this.verticalAlignment = this.verticalPosition;
+        this.on('tap', evt => this.outsideTap(evt as GestureEventData, modalView));
     }
 
-    modal.closeModal();
-  }
+    private outsideTap (args: GestureEventData, modal: View): void {
+        if (!booleanConverter(this.dismissEnabled)) {
+            return; // Don't close the modal
+        }
+
+        if (isIOS) {
+            const iosMotion = args.ios;
+            const view = iosMotion.view;
+            const tapPos = iosMotion.locationInView(view);
+            const modalFrame = modal.ios.frame;
+            const insideRect = CGRectContainsPoint(modalFrame, tapPos);
+
+            if (insideRect) {
+                // Touched inside, don't close.
+                return;
+            }
+        } else {
+            const androidMotion: android.view.MotionEvent = args.android;
+            const x = androidMotion.getRawX() - layout.toDevicePixels(this.getLocationOnScreen().x);
+            const y = androidMotion.getRawY() - layout.toDevicePixels(this.getLocationOnScreen().y);
+            const rect = new android.graphics.Rect();
+
+            modal.android.getHitRect(rect);
+            const insideRect = rect.contains(x, y);
+
+            if (insideRect) {
+                // Touched inside, don't close.
+                return;
+            }
+        }
+
+        modal.closeModal();
+    }
 }
