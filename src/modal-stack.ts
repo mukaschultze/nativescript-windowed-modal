@@ -1,7 +1,7 @@
-import { GestureEventData } from 'tns-core-modules/ui/gestures/gestures'
-import { booleanConverter, CSSType, isIOS, layout, LayoutBase, View } from 'tns-core-modules/ui/layouts/layout-base'
-import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layout'
-import { HorizontalAlignment, VerticalAlignment } from 'tns-core-modules/ui/styling/style-properties'
+import { GestureEventData } from 'tns-core-modules/ui/gestures/gestures';
+import { booleanConverter, CSSType, isIOS, layout, LayoutBase, View } from 'tns-core-modules/ui/layouts/layout-base';
+import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layout';
+import { HorizontalAlignment, VerticalAlignment } from 'tns-core-modules/ui/styling/style-properties';
 
 @CSSType('ModalStack')
 export class ModalStack extends StackLayout {
@@ -13,7 +13,7 @@ export class ModalStack extends StackLayout {
     super()
   }
 
-  onLoaded(): void {
+  onLoaded (): void {
     super.onLoaded()
 
     const modalView = <LayoutBase>this.getChildAt(0)
@@ -25,7 +25,7 @@ export class ModalStack extends StackLayout {
     this.on('tap', evt => this.outsideTap(evt as GestureEventData, modalView))
   }
 
-  private outsideTap(args: GestureEventData, modal: View): void {
+  private outsideTap (args: GestureEventData, modal: View): void {
     if (!booleanConverter(this.dismissEnabled)) {
       return // Don't close the modal
     }

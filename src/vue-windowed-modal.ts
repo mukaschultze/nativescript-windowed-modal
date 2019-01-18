@@ -1,4 +1,4 @@
-function _findParentModalEntry(vm) {
+function _findParentModalEntry (vm) {
   if (!vm) {
     return false
   }
@@ -12,12 +12,12 @@ function _findParentModalEntry(vm) {
 }
 
 const VueWindowedModal = {
-  install(Vue) {
+  install (Vue) {
     Vue.mixin({
-      created() {
+      created () {
         const self = this
         this.$modal = {
-          close(data) {
+          close (data) {
             const entry = _findParentModalEntry(self)
 
             if (entry) {
@@ -28,7 +28,7 @@ const VueWindowedModal = {
       }
     })
 
-    Vue.prototype.$showModal = function(component, options) {
+    Vue.prototype.$showModal = function (component, options) {
       const defaultOptions = {
         fullscreen: false,
         animated: true,
