@@ -23,42 +23,75 @@ Call the `overrideModalViewMethod()` once before starting the app and register t
 #### Javascript
 
 ```js
-var windowedModal = require("nativescript-windowed-modal");
-windowedModal.overrideModalViewMethod();
+var windowedModal = require('nativescript-windowed-modal')
+windowedModal.overrideModalViewMethod()
 ```
 
 #### Typescript+Angular
 
 ```ts
-import { ExtendedShowModalOptions, ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal";
+import { ExtendedShowModalOptions, ModalStack, overrideModalViewMethod } from 'nativescript-windowed-modal'
 
-overrideModalViewMethod();
-registerElement("ModalStack", () => ModalStack);
+overrideModalViewMethod()
+registerElement('ModalStack', () => ModalStack)
 ```
 
 You can pass extended options like this:
 
 ```ts
-mainPage.showModal("./modal", {
-    context: "I'm the context",
-    closeCallback: (response: string) => console.log("Modal response: " + response),
-    dimAmount: 0.5 // Sets the alpha of the background dim
-} as ExtendedShowModalOptions);
+mainPage.showModal('./modal', {
+  context: "I'm the context",
+  closeCallback: (response: string) => console.log('Modal response: ' + response),
+  dimAmount: 0.5 // Sets the alpha of the background dim
+} as ExtendedShowModalOptions)
+```
+
+#### NativeScript-Vue
+
+```js
+// main.js
+import { ModalStack, overrideModalViewMethod, VueWindowedModal } from 'nativescript-windowed-modal'
+
+overrideModalViewMethod()
+Vue.registerElement('ModalStack', () => ModalStack)
+Vue.use(VueWindowedModal)
+```
+
+You can pass extended options like this:
+
+```html
+<script type="text/javascript">
+  export default {
+    methods: {
+      openModalTap() {
+        this.$showModal('./modal', {
+          props: {},
+          fullscreen: false,
+          animated: true,
+          stretched: false,
+          dimAmount: 0.5 // Sets the alpha of the background dim,
+        })
+      }
+    }
+  }
+</script>
 ```
 
 ### Properties
 
 #### [ExtendedShowModalOptions](../master/src/windowed-modal.common.ts#L13)
 
-| Property | Type | Platform | Default | Description |
-| -------- | ---- | -------- | ------- | ----------- |
-| dimAmount? | number | both | 0.5 | Controls the alpha value of the dimming color. On Android, setting this to 0 disables the fade in animation. On iOS this value will be replaced with the alpha of the background color if it is set.
+| Property   | Type   | Platform | Default | Description                                                                                                                                                                                          |
+| ---------- | ------ | -------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dimAmount? | number | both     | 0.5     | Controls the alpha value of the dimming color. On Android, setting this to 0 disables the fade in animation. On iOS this value will be replaced with the alpha of the background color if it is set. |
 
 #### [ModalStack](../master/src/modal-stack.ts#L8)
 
-| Property | Type | Platform | Default | Description |
-| -------- | ---- | -------- | ------- | ----------- |
-| dismissEnabled | boolean | both | true | If set to true, the modal is allowed to close when touching outside of the content frame
+| Property           | Type    | Platform | Default | Description                                                                              |
+| ------------------ | ------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
+| dismissEnabled     | boolean | both     | true    | If set to true, the modal is allowed to close when touching outside of the content frame |
+| verticalPosition   | string  | both     | middle  | Uses the same options as HorizontalAlignment ("left" - "center" - "right" - "stretch")   |
+| horizontalPosition | string  | both     | center  | Uses the same options as VerticalAlignment ("top" - "middle" - "bottom" - "stretch")     |
 
 ### Layout
 
@@ -80,9 +113,9 @@ Wrap your modal component with a `ModalStack` tag to layout the elements in a co
 
 ```html
 <ModalStack dismissEnabled="true" class="modal-container">
-    <StackLayout class="modal">
-        <Label text="Hi, I'm your modal" class="text-center" textWrap="true"></Label>
-    </StackLayout>
+  <StackLayout class="modal">
+    <Label text="Hi, I'm your modal" class="text-center" textWrap="true"></Label>
+  </StackLayout>
 </ModalStack>
 ```
 
@@ -92,17 +125,17 @@ You may want to create the `.modal` and `.modal-container` classes in your .css 
 
 ```css
 .modal {
-    margin: 20;
-    margin-top: 35;
-    border-radius: 8;
-    horizontal-align: center;
-    vertical-align: middle;
-    background-color: white;
+  margin: 20;
+  margin-top: 35;
+  border-radius: 8;
+  horizontal-align: center;
+  vertical-align: middle;
+  background-color: white;
 }
 
 .modal-container {
-    padding: 25;
-    padding-bottom: 10;
+  padding: 25;
+  padding-bottom: 10;
 }
 ```
 
