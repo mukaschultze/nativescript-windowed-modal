@@ -16,5 +16,8 @@
     "typescript.preferences.quoteStyle": "double",
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
-    }
+    },
+    "tslint.configFile": "./tslint.json",
+    "tslint.autoFixOnSave": true,
+    "tslint.enable": true
 }

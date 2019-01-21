@@ -1,31 +1,33 @@
-import { GestureEventData } from 'tns-core-modules/ui/gestures/gestures';
-import { booleanConverter, CSSType, isIOS, layout, LayoutBase, View } from 'tns-core-modules/ui/layouts/layout-base';
-import { StackLayout } from 'tns-core-modules/ui/layouts/stack-layout/stack-layout';
-import { HorizontalAlignment, VerticalAlignment } from 'tns-core-modules/ui/styling/style-properties';
+import { GestureEventData } from "tns-core-modules/ui/gestures/gestures";
+import { booleanConverter, CSSType, isIOS, layout, LayoutBase, View } from "tns-core-modules/ui/layouts/layout-base";
+import { StackLayout } from "tns-core-modules/ui/layouts/stack-layout/stack-layout";
+import { HorizontalAlignment, VerticalAlignment } from "tns-core-modules/ui/styling/style-properties";
 
-@CSSType('ModalStack')
+@CSSType("ModalStack")
 export class ModalStack extends StackLayout {
-    dismissEnabled: string = 'true';
-    verticalPosition: VerticalAlignment = 'middle';
-    horizontalPosition: HorizontalAlignment = 'center';
+
+    dismissEnabled: string = "true";
+    verticalPosition: VerticalAlignment = "middle";
+    horizontalPosition: HorizontalAlignment = "center";
 
     constructor() {
         super();
     }
 
-    onLoaded (): void {
+    onLoaded(): void {
         super.onLoaded();
 
-        const modalView = <LayoutBase>this.getChildAt(0);
+        const modalView = this.getChildAt(0) as LayoutBase;
 
-        this.set('height', '100%');
-        this.set('width', '100%');
+        this.set("height", "100%");
+        this.set("width", "100%");
         this.horizontalAlignment = this.horizontalPosition;
         this.verticalAlignment = this.verticalPosition;
-        this.on('tap', evt => this.outsideTap(evt as GestureEventData, modalView));
+        this.on("tap", (evt) => this.outsideTap(evt as GestureEventData, modalView));
+
     }
 
-    private outsideTap (args: GestureEventData, modal: View): void {
+    private outsideTap(args: GestureEventData, modal: View): void {
         if (!booleanConverter(this.dismissEnabled)) {
             return; // Don't close the modal
         }
@@ -37,8 +39,7 @@ export class ModalStack extends StackLayout {
             const modalFrame = modal.ios.frame;
             const insideRect = CGRectContainsPoint(modalFrame, tapPos);
 
-            if (insideRect) {
-                // Touched inside, don't close.
+            if (insideRect) { // Touched inside, don't close.
                 return;
             }
         } else {
@@ -50,8 +51,7 @@ export class ModalStack extends StackLayout {
             modal.android.getHitRect(rect);
             const insideRect = rect.contains(x, y);
 
-            if (insideRect) {
-                // Touched inside, don't close.
+            if (insideRect) { // Touched inside, don't close.
                 return;
             }
         }

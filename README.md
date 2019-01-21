@@ -23,25 +23,25 @@ Call the `overrideModalViewMethod()` once before starting the app and register t
 #### Javascript
 
 ```js
-var windowedModal = require('nativescript-windowed-modal')
+var windowedModal = require("nativescript-windowed-modal")
 windowedModal.overrideModalViewMethod()
 ```
 
 #### Typescript+Angular
 
 ```ts
-import { ExtendedShowModalOptions, ModalStack, overrideModalViewMethod } from 'nativescript-windowed-modal'
+import { ExtendedShowModalOptions, ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal"
 
 overrideModalViewMethod()
-registerElement('ModalStack', () => ModalStack)
+registerElement("ModalStack", () => ModalStack)
 ```
 
 You can pass extended options like this:
 
 ```ts
-mainPage.showModal('./modal', {
+mainPage.showModal("./modal", {
   context: "I'm the context",
-  closeCallback: (response: string) => console.log('Modal response: ' + response),
+  closeCallback: (response: string) => console.log("Modal response: " + response),
   dimAmount: 0.5 // Sets the alpha of the background dim
 } as ExtendedShowModalOptions)
 ```
@@ -50,10 +50,10 @@ mainPage.showModal('./modal', {
 
 ```js
 // main.js
-import { ModalStack, overrideModalViewMethod, VueWindowedModal } from 'nativescript-windowed-modal'
+import { ModalStack, overrideModalViewMethod, VueWindowedModal } from "nativescript-windowed-modal"
 
 overrideModalViewMethod()
-Vue.registerElement('ModalStack', () => ModalStack)
+Vue.registerElement("ModalStack", () => ModalStack)
 Vue.use(VueWindowedModal)
 ```
 
@@ -64,7 +64,7 @@ You can pass extended options like this:
   export default {
     methods: {
       openModalTap() {
-        this.$showModal('./modal', {
+        this.$showModal("./modal", {
           props: {},
           fullscreen: false,
           animated: true,
@@ -148,8 +148,10 @@ You may want to create the `.modal` and `.modal-container` classes in your .css 
 
 ## Changelog
 
-### v5.0.4
+### v5.0.5
 
+- Vue.js support
+- `verticalPosition` and `horizontalPosition` properties for `ModalStack`
 - Support for dimAmount and dismissEnabled properties
 
 ## Known Issues

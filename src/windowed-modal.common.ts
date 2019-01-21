@@ -2,9 +2,9 @@ import { AndroidActivityBackPressedEventData } from "tns-core-modules/applicatio
 import { Color } from "tns-core-modules/color";
 import { isIOS, screen } from "tns-core-modules/platform";
 import * as ViewClass from "tns-core-modules/ui/core/view";
-import { ShowModalOptions } from "tns-core-modules/ui/core/view";
 import * as utils from "tns-core-modules/utils/utils";
 
+// tslint:disable-next-line:no-implicit-dependencies
 const viewCommon = require("ui/core/view/view-common").ViewCommon;
 const modalMap = new Map<number, CustomDialogOptions>();
 
@@ -19,12 +19,12 @@ interface CustomDialogOptions {
     dimAmount: number;
 }
 
-export interface ExtendedShowModalOptions extends ShowModalOptions {
+export interface ExtendedShowModalOptions extends ViewClass.ShowModalOptions {
     dimAmount?: number;
 }
 
 export function overrideModalViewMethod(): void {
-    (<any>ViewClass.View).prototype._showNativeModalView = isIOS ? iosModal : androidModal;
+    (ViewClass.View as any).prototype._showNativeModalView = isIOS ? iosModal : androidModal;
 }
 
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.ios.ts
@@ -91,7 +91,7 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
 
     this._raiseShowingModallyEvent();
     options.animated = options.animated === undefined ? true : !!options.animated;
-    (<any>controller).animated = options.animated;
+    (controller as any).animated = options.animated;
     parentController.presentViewControllerAnimatedCompletion(controller, options.animated, null);
 
     const transitionCoordinator = utils.ios.getter(parentController, parentController.transitionCoordinator);
@@ -146,16 +146,16 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
             onBackPressed(): void {
 
                 const view = this.fragment.owner;
-                const args: AndroidActivityBackPressedEventData = {
+                const evt: AndroidActivityBackPressedEventData = {
                     eventName: "activityBackPressed",
                     object: view,
                     activity: view._context,
                     cancel: false
                 };
 
-                view.notify(args);
+                view.notify(evt);
 
-                if (!args.cancel && !view.onBackPressed()) {
+                if (!evt.cancel && !view.onBackPressed()) {
                     super.onBackPressed();
                 }
             }
@@ -180,12 +180,13 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             onCreateDialog(savedInstanceState: android.os.Bundle): android.app.Dialog {
                 const ownerId = this.getArguments().getInt(DOM_ID);
-                const options = modalMap.get(ownerId);
-                this.owner = options.owner;
-                this._fullscreen = options.fullscreen;
-                this._stretched = options.stretched;
-                this._dismissCallback = options.dismissCallback;
-                this._shownCallback = options.shownCallback;
+                const customDialogOptions = modalMap.get(ownerId);
+
+                this.owner = customDialogOptions.owner;
+                this._fullscreen = customDialogOptions.fullscreen;
+                this._stretched = customDialogOptions.stretched;
+                this._dismissCallback = customDialogOptions.dismissCallback;
+                this._shownCallback = customDialogOptions.shownCallback;
                 this.owner._dialogFragment = this;
 
                 this.setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, 0);
@@ -203,7 +204,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
                 const window = dialog.getWindow();
 
                 window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT));
-                window.setDimAmount(options.dimAmount);
+                window.setDimAmount(customDialogOptions.dimAmount);
 
                 return dialog;
             }

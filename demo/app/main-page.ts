@@ -1,11 +1,11 @@
-import * as observable from 'tns-core-modules/data/observable';
-import { Page } from 'tns-core-modules/ui/page';
+import * as observable from "tns-core-modules/data/observable";
+import { Page } from "tns-core-modules/ui/page";
 import { ExtendedShowModalOptions } from "../../src/windowed-modal.common";
 
 let mainPage: Page;
 
 export function pageLoaded(args: observable.EventData) {
-    mainPage = <Page>args.object;
+    mainPage = args.object as Page;
 }
 
 export function openModal1() {

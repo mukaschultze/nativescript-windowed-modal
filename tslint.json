@@ -1,14 +1,48 @@
 {
+    "extends": "tslint:latest",
+    "linterOptions": {
+        "exclude": [
+            "src/node_modules",
+            "demo/node_modules"
+        ]
+    },
     "rules": {
+        "max-line-length": false,
         "class-name": true,
+        "no-submodule-imports": false,
+        "interface-name": false,
+        "no-reference": false,
+        "no-console": false,
+        "no-this-assignment": false,
+        "no-var-requires": false,
+        "object-literal-sort-keys": false,
+        "no-implicit-dependencies": false,
+        "no-object-literal-type-assertion": false,
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "never",
+                "singleline": "never"
+            }
+        ],
         "comment-format": [
             true,
             "check-space"
         ],
         "indent": [
             true,
-            "spaces"
+            "spaces",
+            4
         ],
+        "no-consecutive-blank-lines": [
+            true,
+            1
+        ],
+        "member-access": [
+            true,
+            "no-public"
+        ],
+        "max-classes-per-file": false,
         "no-duplicate-variable": true,
         "no-eval": true,
         "no-internal-module": true,
@@ -20,7 +54,7 @@
             "check-whitespace"
         ],
         "quotemark": [
-            false,
+            true,
             "double"
         ],
         "semicolon": [

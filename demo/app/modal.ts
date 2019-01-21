@@ -1,13 +1,12 @@
-import { Page, ShownModallyData } from 'tns-core-modules/ui/page';
+import { Page, ShownModallyData } from "tns-core-modules/ui/page";
 
+// tslint:disable-next-line:ban-types
 let closeCallback: Function;
 
 export function showingModally(args: ShownModallyData): void {
     closeCallback = args.closeCallback;
 
-    (<Page>args.object).content.set("backgroundColor", args.context.dim);
-    // (<Page>args.object).backgroundColor = args.context.dim;
-
+    (args.object as Page).content.set("backgroundColor", args.context.dim);
 
     console.log("Modal context: " + args.context.message);
 }

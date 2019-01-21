@@ -16,7 +16,7 @@
   "devDependencies": {
     "nativescript-css-loader": "~0.26.1",
     "nativescript-dev-typescript": "^0.7.9",
-    "nativescript-dev-webpack": "~0.17.0",
+    "nativescript-dev-webpack": "^0.18.0",
     "tns-platform-declarations": "^5.1.2",
     "tslint": "~5.11.0",
     "typescript": "~2.8.2"
@@ -26,7 +26,7 @@
     "build.ios.webpack": "cd ../src && npm run plugin.prepare && cd ../demo && tns build ios --bundle --env.uglify",
     "build.android": "cd ../src && npm run plugin.prepare && cd ../demo && tns build android",
     "build.android.webpack": "cd ../src && npm run plugin.prepare && cd ../demo && tns build android --bundle --env.uglify --env.snapshot",
-    "ci.install": "cd .. && git clean -dfx && cd demo && npm ci && cd ../src && npm ci",
+    "ci.install": "cd .. && git clean -dfx && cd src && npm ci && cd ../demo && npm ci",
     "ci.tslint": "npm run ci.install && tslint 'app/**/*.ts' --config '../tslint.json' --exclude './**/node_modules/**'"
   }
 }

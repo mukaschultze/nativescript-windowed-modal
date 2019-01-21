@@ -1,10 +1,10 @@
-function _findParentModalEntry (vm) {
+function _findParentModalEntry(vm) {
     if (!vm) {
         return false;
     }
 
     let entry = vm.$parent;
-    while (entry && entry.$options.name !== 'ModalEntry') {
+    while (entry && entry.$options.name !== "ModalEntry") {
         entry = entry.$parent;
     }
 
@@ -12,12 +12,12 @@ function _findParentModalEntry (vm) {
 }
 
 const VueWindowedModal = {
-    install (Vue) {
+    install(Vue) {
         Vue.mixin({
-            created () {
+            created() {
                 const self = this;
                 this.$modal = {
-                    close (data) {
+                    close(data) {
                         const entry = _findParentModalEntry(self);
 
                         if (entry) {
@@ -28,7 +28,7 @@ const VueWindowedModal = {
             }
         });
 
-        Vue.prototype.$showModal = function (component, options) {
+        Vue.prototype.$showModal = function(component, options) {
             const defaultOptions = {
                 fullscreen: false,
                 animated: true,
@@ -36,12 +36,12 @@ const VueWindowedModal = {
                 dimAmount: 0.5
             };
             // build options object with defaults
-            options = Object.assign({}, defaultOptions, options);
+            options = { ...defaultOptions, ...options };
 
-            return new Promise(resolve => {
+            return new Promise((resolve) => {
                 let resolved = false;
-                const closeCb = data => {
-                    if (resolved) return;
+                const closeCb = (data) => {
+                    if (resolved) { return; }
 
                     resolved = true;
                     resolve(data);
@@ -49,20 +49,15 @@ const VueWindowedModal = {
 
                     // emitted to show up in devtools
                     // for debugging purposes
-                    navEntryInstance.$emit('modal:close', data);
+                    navEntryInstance.$emit("modal:close", data);
                     navEntryInstance.$destroy();
                 };
 
                 const navEntryInstance = new Vue({
-                    name: 'ModalEntry',
+                    name: "ModalEntry",
                     parent: this.$root,
-                    methods: {
-                        closeCb
-                    },
-                    render: h =>
-                        h(component, {
-                            props: options.props
-                        })
+                    methods: { closeCb },
+                    render: (h) => h(component, { props: options.props })
                 });
                 const modalPage = navEntryInstance.$mount().$el.nativeView;
                 this.$el.nativeView.showModal(modalPage, {

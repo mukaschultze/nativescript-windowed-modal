@@ -17,7 +17,7 @@
         "demo.android": "npm run tsc && cd ../demo && tns run android --syncAllFiles --emulator",
         "demo.reset": "cd ../demo && npx rimraf -- hooks node_modules platforms",
         "plugin.prepare": "npm run tsc && cd ../demo && tns plugin remove nativescript-windowed-modal && tns plugin add ../src",
-        "ci.install": "cd .. && git clean -dfx && cd demo && npm ci && cd ../src && npm ci",
+        "ci.install": "cd .. && git clean -dfx && cd src && npm ci && cd ../demo && npm ci",
         "ci.tslint": "npm run ci.install && tslint './**/*.ts' --config '../tslint.json' --exclude './**/node_modules/**'"
     },
     "keywords": [
@@ -30,17 +30,18 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/MukaSchultze/nativescript-windowed-modal"
+        "url": "https://github.com/mukaschultze/nativescript-windowed-modal"
     },
     "author": {
         "name": "Samuel Schultze",
         "email": "samuelschultze@gmail.com"
     },
     "bugs": {
-        "url": "https://github.com/MukaSchultze/nativescript-windowed-modal/issues"
+        "url": "https://github.com/mukaschultze/nativescript-windowed-modal/issues"
     },
+    "readme": "README.md",
     "license": "Apache-2.0",
-    "homepage": "https://github.com/MukaSchultze/nativescript-windowed-modal",
+    "homepage": "https://github.com/mukaschultze/nativescript-windowed-modal",
     "readmeFilename": "README.md",
     "devDependencies": {
         "prompt": "^1.0.0",
