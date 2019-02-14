@@ -116,14 +116,14 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
     if (!this.backgroundColor) {
         this.backgroundColor = new Color("transparent");
-
-        setTimeout(() => {
-            this.width = screen.mainScreen.widthDIPs + 1;
-            this.height = screen.mainScreen.heightDIPs + 1;
-            this.horizontalAlignment = "stretch";
-            this.verticalAlignment = "stretch";
-        }, 5);
     }
+
+    // setTimeout(() => {
+    this.width = screen.mainScreen.widthDIPs + 1;
+    this.height = screen.mainScreen.heightDIPs + 1;
+    this.horizontalAlignment = "stretch";
+    this.verticalAlignment = "stretch";
+    // }, 5);
 
     this._setupUI(parent._context);
     this._isAddedToNativeVisualTree = true;
