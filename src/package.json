@@ -39,7 +39,6 @@
     "bugs": {
         "url": "https://github.com/mukaschultze/nativescript-windowed-modal/issues"
     },
-    "readme": "README.md",
     "license": "Apache-2.0",
     "homepage": "https://github.com/mukaschultze/nativescript-windowed-modal",
     "readmeFilename": "README.md",
