@@ -148,11 +148,9 @@ You may want to create the `.modal` and `.modal-container` classes in your .css 
 
 ## Changelog
 
-### v5.0.5
+### v5.0.6
 
-- Vue.js support
-- `verticalPosition` and `horizontalPosition` properties for `ModalStack`
-- Support for dimAmount and dismissEnabled properties
+- Fix layout bug
 
 ## Known Issues
 
