@@ -34,7 +34,7 @@ const VueWindowedModal = {
                 animated: true,
                 stretched: false,
                 dimAmount: 0.5,
-                ios: {},
+                ios: {}
             };
             // build options object with defaults
             options = { ...defaultOptions, ...options };
@@ -68,7 +68,7 @@ const VueWindowedModal = {
                     animated: options.animated,
                     stretched: options.stretched,
                     dimAmount: options.dimAmount,
-                    ios: options.ios,
+                    ios: options.ios
                 });
             });
         };
