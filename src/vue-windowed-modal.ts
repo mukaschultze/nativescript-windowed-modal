@@ -33,7 +33,8 @@ const VueWindowedModal = {
                 fullscreen: false,
                 animated: true,
                 stretched: false,
-                dimAmount: 0.5
+                dimAmount: 0.5,
+                ios: {}
             };
             // build options object with defaults
             options = { ...defaultOptions, ...options };
@@ -66,7 +67,8 @@ const VueWindowedModal = {
                     fullscreen: options.fullscreen,
                     animated: options.animated,
                     stretched: options.stretched,
-                    dimAmount: options.dimAmount
+                    dimAmount: options.dimAmount,
+                    ios: options.ios
                 });
             });
         };
