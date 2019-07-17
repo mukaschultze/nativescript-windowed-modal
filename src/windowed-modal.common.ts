@@ -161,7 +161,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
             }
         }
 
-        class CustomDialogFragmentImpl extends android.support.v4.app.DialogFragment {
+        class CustomDialogFragmentImpl extends androidx.fragment.app.DialogFragment {
 
             owner: any;
             private _fullscreen: boolean;
@@ -189,7 +189,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
                 this._shownCallback = customDialogOptions.shownCallback;
                 this.owner._dialogFragment = this;
 
-                this.setStyle(android.support.v4.app.DialogFragment.STYLE_NO_TITLE, 0);
+                this.setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_TITLE, 0);
 
                 const dialog = new CustomDialogImpl(this, this.getActivity(), this.getTheme());
 
