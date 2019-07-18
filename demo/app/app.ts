@@ -2,4 +2,4 @@
 import * as application from "tns-core-modules/application";
 
 overrideModalViewMethod();
-application.start({ moduleName: "main-page" });
+application.run({ moduleName: "main-page" });

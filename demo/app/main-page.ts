@@ -1,6 +1,6 @@
+import { ExtendedShowModalOptions } from "nativescript-windowed-modal/windowed-modal.common";
 import * as observable from "tns-core-modules/data/observable";
 import { Page } from "tns-core-modules/ui/page";
-import { ExtendedShowModalOptions } from "../../src/windowed-modal.common";
 
 let mainPage: Page;
 
