@@ -3,45 +3,47 @@ notifications:
     on_success: never
     on_failure: change
 
-matrix:
+    matrix:
   include:
     - stage: "Lint"
       language: node_js
       os: linux
       node_js: "12"
       script: cd src && npm run ci.tslint && cd ../demo && npm run ci.tslint
-    - stage: "WebPack, Build"
+    - stage: "WebPack and Build"
       os: osx
       env:
         - WebPack="iOS"
-      osx_image: xcode10.0
+      osx_image: xcode10.2
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
-      script: cd demo && npm run ci.install && npm run build.ios.webpack
+      script: cd demo && npm run build.plugin && npm ci && tns build ios --bundle --env.uglify
     - language: android
       os: linux
       env:
         - WebPack="Android"
       jdk: oraclejdk8
       before_install: nvm install 8
-      script: cd demo && npm run ci.install && npm run build.android.webpack
+      script: cd demo && npm run build.plugin && npm ci && tns build android --bundle --env.uglify --env.snapshot
     - language: android
       env: 
         - BuildAndroid="28"
       os: linux
       jdk: oraclejdk8
       before_install: nvm install stable
-      script: cd demo && npm run ci.install && npm run build.android
+      script:
+        - cd src && npm ci && npm run tsc && cd ../demo && tns build android --no-bundle
     - os: osx
       env: 
         - BuildiOS="12"
-        - Xcode="10.0"
-      osx_image: xcode10.0
+        - Xcode="10.2"
+      osx_image: xcode10.2
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
-      script: cd demo && npm run ci.install && npm run build.ios
+      script: 
+        - cd src && npm ci && npm run tsc && cd ../demo && tns build ios --no-bundle
 
 android:
   components:
@@ -49,14 +51,15 @@ android:
     - platform-tools
     - build-tools-28.0.3
     - android-28
+    - android-21
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-21
-
-before_install:
-    - sudo pip install --upgrade pip
-    - sudo pip install six
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 
 install:
-    - echo no | npm install -g nativescript
-    - tns usage-reporting disable
-    - tns error-reporting disable
+  - echo no | npm install -g nativescript
+  - tns usage-reporting disable
+  - tns error-reporting disable
