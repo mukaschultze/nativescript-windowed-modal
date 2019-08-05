@@ -62,11 +62,8 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
         if (DialogFragmentStatic) { return DialogFragmentStatic; }
 
         class CustomDialogImpl extends android.app.Dialog {
-            constructor(public fragment: CustomDialogFragmentImpl,
-                context: android.content.Context,
-                themeResId: number) {
+            constructor(public fragment: CustomDialogFragmentImpl, context: android.content.Context, themeResId: number) {
                 super(context, themeResId);
-
                 return global.__native(this);
             }
 
@@ -77,12 +74,12 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onBackPressed(): void {
                 const view = this.fragment.owner;
-                const args = <AndroidActivityBackPressedEventData>{
+                const args = { // tslint:disable-line
                     eventName: "activityBackPressed",
                     object: view,
                     activity: view._context,
-                    cancel: false,
-                };
+                    cancel: false
+                } as AndroidActivityBackPressedEventData;
 
                 // Fist fire application.android global event
                 androidApp.notify(args);
@@ -114,7 +111,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onCreateDialog(savedInstanceState: android.os.Bundle): android.app.Dialog {
                 const ownerId = this.getArguments().getInt(DOMID);
-                const options = getModalOptions(ownerId);
+                const options = getModalOptions(ownerId); // tslint:disable-line
                 this.owner = options.owner;
                 this._fullscreen = options.fullscreen;
                 this._cancelable = options.cancelable;

@@ -85,7 +85,7 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
 
     this._raiseShowingModallyEvent();
     const animated = options.animated === undefined ? true : !!options.animated;
-    (<any>controller).animated = animated;
+    (controller as any).animated = animated;
     parentController.presentViewControllerAnimatedCompletion(controller, animated, null);
     const transitionCoordinator = parentController.transitionCoordinator;
     if (transitionCoordinator) {

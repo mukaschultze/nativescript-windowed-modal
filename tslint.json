@@ -38,10 +38,7 @@
             true,
             1
         ],
-        "member-access": [
-            true,
-            "no-public"
-        ],
+        "member-access": false,
         "max-classes-per-file": false,
         "no-duplicate-variable": true,
         "no-eval": true,
