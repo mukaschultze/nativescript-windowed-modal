@@ -6,8 +6,6 @@
 
 This plugin overrides the `showModal()` from nativescript, making modals look and behave the same on Android and iOS.
 
-**NativeScript 5.x only, for older NS versions use 1.0.3 instead.**
-
 ## Installation
 
 ```cmd
@@ -145,12 +143,6 @@ You may want to create the `.modal` and `.modal-container` classes in your .css 
 2. `cd src`
 3. `npm install && npm run plugin.prepare`
 4. `npm run demo.android` or `npm run demo.ios`
-
-## Changelog
-
-### v5.0.6
-
-- Fix layout bug
 
 ## Known Issues
 
