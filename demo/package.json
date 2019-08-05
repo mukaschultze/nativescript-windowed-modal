@@ -20,11 +20,7 @@
     "typescript": "3.4.5"
   },
   "scripts": {
-    "build.ios": "cd ../src && npm run plugin.prepare && cd ../demo && tns build ios",
-    "build.ios.webpack": "cd ../src && npm run plugin.prepare && cd ../demo && tns build ios --bundle --env.uglify",
-    "build.android": "cd ../src && npm run plugin.prepare && cd ../demo && tns build android",
-    "build.android.webpack": "cd ../src && npm run plugin.prepare && cd ../demo && tns build android --bundle --env.uglify --env.snapshot",
-    "ci.install": "cd .. && git clean -dfx && cd src && npm ci && cd ../demo && npm ci",
-    "ci.tslint": "npm run ci.install && tslint 'app/**/*.ts' --config '../tslint.json' --exclude './**/node_modules/**'"
+    "build.plugin": "cd ../src && npm run build",
+    "ci.tslint": "npm i && tslint --config '../tslint.json' 'app/**/*.ts' --exclude '**/node_modules/**'"
   }
 }
