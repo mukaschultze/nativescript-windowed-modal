@@ -8,15 +8,23 @@ src/*.d.ts
 !src/index.d.ts
 !src/references.d.ts
 !src/scripts/*.js
+node_modules
+publish/src
+publish/package
+
 demo/*.d.ts
 !demo/references.d.ts
 demo/lib
 demo/platforms
-node_modules
-publish/src
-publish/package
 demo/report/report.html
 demo/report/stats.json
+
+demo-ng/*.d.ts
+!demo-ng/references.d.ts
+demo-ng/lib
+demo-ng/platforms
+demo-ng/report/report.html
+demo-ng/report/stats.json
 
 .vscode/*
 !.vscode/settings.json

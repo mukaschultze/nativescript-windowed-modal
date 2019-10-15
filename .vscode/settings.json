@@ -10,7 +10,8 @@
             "when": "$(basename).scss"
         },
         "**/node_modules/": true,
-        "demo/platforms": true
+        "demo/platforms": true,
+        "demo-ng/platforms": true
     },
     "typescript.tsdk": "node_modules\\typescript\\lib",
     "typescript.preferences.quoteStyle": "double",
