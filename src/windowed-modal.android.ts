@@ -48,8 +48,13 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
     }
 
     // setTimeout(() => {
+
+    // https://github.com/mukaschultze/nativescript-windowed-modal/issues/14
+    // this.height = screen.mainScreen.heightDIPs + 1;
+
+    this.height = "100%";
     this.width = screen.mainScreen.widthDIPs + 1;
-    this.height = screen.mainScreen.heightDIPs + 1;
+
     this.horizontalAlignment = "stretch";
     this.verticalAlignment = "stretch";
     // }, 5);
