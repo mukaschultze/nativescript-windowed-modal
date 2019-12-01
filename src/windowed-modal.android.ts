@@ -5,7 +5,7 @@ import * as viewModule from "tns-core-modules/ui/core/view";
 import { ExtendedShowModalOptions } from "./windowed-modal.common";
 
 // tslint:disable-next-line:no-implicit-dependencies
-const viewCommon = require("ui/core/view/view-common").ViewCommon;
+const viewCommon = require("@nativescript/core/ui/core/view/view-common").ViewCommon;
 const modalMap = new Map<number, CustomDialogOptions>();
 
 const DOMID = "_domId";
