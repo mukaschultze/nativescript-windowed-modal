@@ -1,8 +1,8 @@
-import * as viewModule from "tns-core-modules/ui/core/view";
-import { traceCategories, traceMessageType, traceWrite } from "tns-core-modules/ui/core/view-base";
+import * as viewModule from "@nativescript/core/ui/core/view";
+import { traceCategories, traceMessageType, traceWrite } from "@nativescript/core/ui/core/view-base";
 import { ExtendedShowModalOptions } from "./windowed-modal.common";
 // tslint:disable-next-line:no-implicit-dependencies
-const viewCommon = require("ui/core/view/view-common").ViewCommon;
+const viewCommon = require("@nativescript/core/ui/core/view/view-common").ViewCommon;
 
 export function overrideModalViewMethod(): void {
     (viewModule.View as any).prototype._showNativeModalView = iosModal;
