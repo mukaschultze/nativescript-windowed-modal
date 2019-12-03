@@ -1,4 +1,4 @@
-import * as viewModule from "tns-core-modules/ui/core/view";
+import * as viewModule from "@nativescript/core/ui/core/view";
 export interface ExtendedShowModalOptions extends viewModule.ShowModalOptions {
     dimAmount?: number;
 }
