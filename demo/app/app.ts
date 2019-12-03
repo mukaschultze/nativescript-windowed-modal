@@ -1,5 +1,5 @@
-﻿import { overrideModalViewMethod } from "nativescript-windowed-modal";
-import * as application from "tns-core-modules/application";
+﻿import * as application from "@nativescript/core/application";
+import { overrideModalViewMethod } from "nativescript-windowed-modal";
 
 overrideModalViewMethod();
 application.run({ moduleName: "main-page" });
