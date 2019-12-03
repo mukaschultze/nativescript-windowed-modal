@@ -1,4 +1,4 @@
-import { Page, ShownModallyData } from "tns-core-modules/ui/page";
+import { Page, ShownModallyData } from "@nativescript/core/ui/page";
 
 // tslint:disable-next-line:ban-types
 let closeCallback: Function;

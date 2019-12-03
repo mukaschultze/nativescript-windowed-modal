@@ -1,11 +1,11 @@
-import { android as androidApp, AndroidActivityBackPressedEventData } from "tns-core-modules/application";
-import { Color } from "tns-core-modules/color";
-import { screen } from "tns-core-modules/platform";
-import * as viewModule from "tns-core-modules/ui/core/view";
+import { android as androidApp, AndroidActivityBackPressedEventData } from "@nativescript/core/application";
+import { Color } from "@nativescript/core/color";
+import { screen } from "@nativescript/core/platform";
+import * as viewModule from "@nativescript/core/ui/core/view";
 import { ExtendedShowModalOptions } from "./windowed-modal.common";
 
 // tslint:disable-next-line:no-implicit-dependencies
-const viewCommon = require("ui/core/view/view-common").ViewCommon;
+const viewCommon = require("@nativescript/core/ui/core/view/view-common").ViewCommon;
 const modalMap = new Map<number, CustomDialogOptions>();
 
 const DOMID = "_domId";
