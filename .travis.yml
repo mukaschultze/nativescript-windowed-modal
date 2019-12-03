@@ -18,7 +18,7 @@ matrix:
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
-      install: pip install --ignore-installed  --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
+      before_install: pip install --ignore-installed  --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
       script: cd demo && npm run build.plugin && npm ci && tns build ios --bundle --env.uglify
     - language: android
       os: linux
