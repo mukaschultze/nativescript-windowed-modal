@@ -54,9 +54,9 @@ install:
   - echo no | npm install -g nativescript
   - tns usage-reporting disable
   - tns error-reporting disable
-  - cd src && npm ci
-  - cd demo && npm ci
-  - cd demo-ng && npm ci
+  - cd src && npm ci && cd ..
+  - cd demo && npm ci && cd ..
+  - cd demo-ng && npm ci && cd ..
 
 android:
   components:
