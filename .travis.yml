@@ -9,24 +9,46 @@ matrix:
       language: node_js
       os: linux
       node_js: "12"
-      script: cd src && npm run ci.tslint && cd ../demo && npm run ci.tslint
-    - stage: "WebPack and Build"
+      env:
+        - PROJ="src"
+        - PROJ="demo"
+        - PROJ="demo-ng"
+      script: cd $PROJ && npm run ci.tslint
+    - stage: "Build"
       os: osx
       env:
-        - WebPack="iOS"
+        - Platform="iOS"
+      osx_image: xcode10.2
+      language: node_js 
+      node_js: "12"
+      jdk: oraclejdk8
+      before_install: pip install --ignore-installed --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
+      script: cd demo && npm run build.plugin && npm ci && tns build ios --bundle --env.uglify
+    - language: android
+      os: linux
+      env:
+        - Platform="Android"
+      jdk: oraclejdk8
+      before_install: nvm install 12
+      script: cd demo && npm run build.plugin && npm ci && tns build android --bundle --env.uglify --env.snapshot
+    
+    - stage: "Build Angular"
+      os: osx
+      env:
+        - Platform="iOS"
       osx_image: xcode10.2
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
       before_install: pip install --ignore-installed  --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
-      script: cd demo && npm run build.plugin && npm ci && tns build ios --bundle --env.uglify
+      script: cd demo-ng && npm run build.plugin && npm ci && tns build ios --bundle --env.uglify
     - language: android
       os: linux
       env:
-        - WebPack="Android"
+        - Platform="Android"
       jdk: oraclejdk8
       before_install: nvm install 12
-      script: cd demo && npm run build.plugin && npm ci && tns build android --bundle --env.uglify --env.snapshot
+      script: cd demo-ng && npm run build.plugin && npm ci && tns build android --bundle --env.uglify --env.snapshot
 
 android:
   components:
