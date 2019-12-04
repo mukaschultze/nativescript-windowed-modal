@@ -9,11 +9,10 @@ matrix:
       language: node_js
       os: linux
       node_js: "12"
-    - env: PROJ="src"
-      script: cd $PROJ && npm run ci.tslint
-    - env: PROJ="demo"
-      script: cd $PROJ && npm ci && npm run ci.tslint
-    - env: PROJ="demo-ng"
+      env:
+        - PROJ="src"
+        - PROJ="demo"
+        - PROJ="demo-ng"
       script: cd $PROJ && npm ci && npm run ci.tslint
     
     - stage: "Build"
@@ -21,10 +20,11 @@ matrix:
       env:
         - Platform="iOS"
       osx_image: xcode10.2
-      language: node_js 
+      language: node_js
       node_js: "12"
       jdk: oraclejdk8
-      script: cd demo && npm run build.plugin && tns build ios --bundle --env.uglify
+      - script: cd demo && npm run build.plugin && tns build ios --bundle --env.uglify
+      - script: cd demo && npm run build.plugin && tns build ios --bundle --env.uglify
     - language: android
       os: linux
       env:
