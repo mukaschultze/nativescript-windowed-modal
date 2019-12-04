@@ -11,6 +11,10 @@
   "description": "NativeScript Application",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
+  "scripts": {
+    "ci.tslint": "tslint --config '../tslint.json' 'src/**/*.ts' --exclude '**/node_modules/**'",
+    "add.plugin": "tns plugin remove nativescript-windowed-modal && tns plugin add ../src"
+  },
   "dependencies": {
     "@angular/animations": "~8.2.0",
     "@angular/common": "~8.2.0",

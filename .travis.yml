@@ -9,10 +9,12 @@ matrix:
       language: node_js
       os: linux
       node_js: "12"
-      script: cd $PROJ && npm run ci.tslint
     - env: PROJ="src"
+      script: cd $PROJ && npm run ci.tslint
     - env: PROJ="demo"
+      script: cd $PROJ && npm ci && npm run ci.tslint
     - env: PROJ="demo-ng"
+      script: cd $PROJ && npm ci && npm run ci.tslint
     
     - stage: "Build"
       os: osx
@@ -55,8 +57,6 @@ install:
   - tns usage-reporting disable
   - tns error-reporting disable
   - cd src && npm ci && cd ..
-  - cd demo && npm ci && cd ..
-  - cd demo-ng && npm ci && cd ..
 
 android:
   components:

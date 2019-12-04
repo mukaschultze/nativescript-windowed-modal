@@ -8,6 +8,10 @@
       "version": "6.2.0"
     }
   },
+  "scripts": {
+    "ci.tslint": "tslint --config '../tslint.json' 'app/**/*.ts' --exclude '**/node_modules/**'",
+    "add.plugin": "tns plugin remove nativescript-windowed-modal && tns plugin add ../src"
+  },
   "dependencies": {
     "nativescript-theme-core": "^1.0.4",
     "nativescript-windowed-modal": "file:../src",
@@ -18,9 +22,5 @@
     "tns-platform-declarations": "^6.2.3",
     "tslint": "~5.11.0",
     "typescript": "3.4.5"
-  },
-  "scripts": {
-    "build.plugin": "cd ../src && npm run build",
-    "ci.tslint": "npm i && tslint --config '../tslint.json' 'app/**/*.ts' --exclude '**/node_modules/**'"
   }
 }
