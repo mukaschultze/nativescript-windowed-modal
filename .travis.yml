@@ -9,11 +9,11 @@ matrix:
       language: node_js
       os: linux
       node_js: "12"
-      env:
-        - PROJ="src"
-        - PROJ="demo"
-        - PROJ="demo-ng"
       script: cd $PROJ && npm run ci.tslint
+    - env: PROJ="src"
+    - env: PROJ="demo"
+    - env: PROJ="demo-ng"
+    
     - stage: "Build"
       os: osx
       env:
@@ -22,15 +22,13 @@ matrix:
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
-      before_install: pip install --ignore-installed --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
-      script: cd demo && npm run build.plugin && npm ci && tns build ios --bundle --env.uglify
+      script: cd demo && npm run build.plugin && tns build ios --bundle --env.uglify
     - language: android
       os: linux
       env:
         - Platform="Android"
       jdk: oraclejdk8
-      before_install: nvm install 12
-      script: cd demo && npm run build.plugin && npm ci && tns build android --bundle --env.uglify --env.snapshot
+      script: cd demo && npm run build.plugin && tns build android --bundle --env.uglify --env.snapshot
     
     - stage: "Build Angular"
       os: osx
@@ -40,15 +38,25 @@ matrix:
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
-      before_install: pip install --ignore-installed  --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
-      script: cd demo-ng && npm run build.plugin && npm ci && tns build ios --bundle --env.uglify
+      script: cd demo-ng && npm run build.plugin && tns build ios --bundle --env.uglify
     - language: android
       os: linux
       env:
         - Platform="Android"
       jdk: oraclejdk8
-      before_install: nvm install 12
-      script: cd demo-ng && npm run build.plugin && npm ci && tns build android --bundle --env.uglify --env.snapshot
+      script: cd demo-ng && npm run build.plugin && tns build android --bundle --env.uglify --env.snapshot
+
+before_install:
+  - pip install --ignore-installed --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
+  - nvm install 12
+
+install:
+  - echo no | npm install -g nativescript
+  - tns usage-reporting disable
+  - tns error-reporting disable
+  - cd src && npm ci
+  - cd demo && npm ci
+  - cd demo-ng && npm ci
 
 android:
   components:
@@ -63,9 +71,3 @@ android:
     - 'android-sdk-preview-license-52d11cd2'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
-
-install:
-  - echo no | npm install -g nativescript
-  - tns usage-reporting disable
-  - tns error-reporting disable
-  
