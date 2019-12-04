@@ -9,10 +9,11 @@ matrix:
       language: node_js
       os: linux
       node_js: "12"
-      env:
-        - PROJ="src"
-        - PROJ="demo"
-        - PROJ="demo-ng"
+      include:
+        env:
+          - PROJ="src"
+          - PROJ="demo"
+          - PROJ="demo-ng"
       script: cd $PROJ && npm ci && npm run ci.tslint
     
     - stage: "Build"
