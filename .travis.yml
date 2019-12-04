@@ -3,17 +3,18 @@ notifications:
     on_success: never
     on_failure: change
 
+env: 
+  - PROJ="src"
+  - PROJ="demo"
+  - PROJ="demo-ng"
+
 matrix:
   include:
     - stage: "Lint"
       language: node_js
       os: linux
       node_js: "12"
-      env: 
-      - PROJ="src"
-      - PROJ="demo"
-      - PROJ="demo-ng"
-      script: cd $PROJ && npm ci && npm run ci.tslint
+      script: cd $PROJ && npm run ci.tslint
     
     - stage: "Build"
       os: osx
