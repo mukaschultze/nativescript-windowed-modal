@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import { ModalDialogParams } from "nativescript-angular/modal-dialog";
 
 @Component({
-  selector: 'ns-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css']
+  selector: "ns-modal",
+  templateUrl: "./modal.component.html",
+  styleUrls: ["./modal.component.css"],
 })
 export class ModalComponent {
 

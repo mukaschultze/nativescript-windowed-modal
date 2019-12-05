@@ -11,18 +11,15 @@
         }
     },
     "scripts": {
-        "tsc": "tsc",
-        "build": "npm i && npm run tsc",
-        "plugin.tscwatch": "npm run tsc -- -w",
-        "demo.ios": "npm run tsc && cd ../demo && tns run ios --emulator",
-        "demo.android": "npm run tsc && cd ../demo && tns run android --emulator",
-        "demo.ng.ios": "npm run tsc && cd ../demo-ng && tns run ios --emulator",
-        "demo.ng.android": "npm run tsc && cd ../demo-ng && tns run android --emulator",
-        "demo.reset": "cd ../demo && npx rimraf -- hooks node_modules platforms",
-        "plugin.prepare": "npm run tsc && npm run demo.addplugin && npm run demo-ng.addplugin",
-        "demo.addplugin": "cd ../demo && tns plugin remove nativescript-windowed-modal && tns plugin add ../src",
-        "demo-ng.addplugin": "cd ../demo-ng && tns plugin remove nativescript-windowed-modal && tns plugin add ../src",
-        "ci.tslint": "npm i && tslint --config '../tslint.json' 'app/**/*.ts' --exclude '**/node_modules/**'"
+        "build": "npm i && tsc",
+        "demo.ios": "cd ../demo && tns run ios",
+        "demo.android": "cd ../demo && tns run android",
+        "demo.addplugin": "cd ../demo && npm run add.plugin",
+        "demo.ng.ios": "cd ../demo-ng && tns run ios",
+        "demo.ng.android": "cd ../demo-ng && tns run android",
+        "demo.ng.addplugin": "cd ../demo-ng && npm run add.plugin",
+        "ci.build": "tsc",
+        "ci.tslint": "cd .. && tslint '**/*.ts'"
     },
     "keywords": [
         "NativeScript",

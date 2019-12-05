@@ -141,8 +141,7 @@ You may want to create the `.modal` and `.modal-container` classes in your .css 
 
 1. Clone this repo
 2. `cd src`
-3. `npm install && npm run plugin.prepare`
-4. `npm run demo.android` or `npm run demo.ios`
+3. `npm run demo.android`, `npm run demo.ios`, `npm run demo.ng.android`, or `npm run demo.ng.ios`
 
 ## Known Issues
 

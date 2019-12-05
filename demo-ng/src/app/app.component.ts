@@ -4,7 +4,7 @@ import { ModalComponent } from "./modal/modal.component";
 
 @Component({
     selector: "ns-app",
-    templateUrl: "./app.component.html"
+    templateUrl: "./app.component.html",
 })
 export class AppComponent {
 
@@ -16,7 +16,7 @@ export class AppComponent {
     async openModal1() {
         const response = await this.modalService.showModal(ModalComponent, {
             context: {
-                message: "I'm the context"
+                message: "I'm the context",
             },
             fullscreen: false,
             viewContainerRef: this.vcRef,
@@ -28,7 +28,7 @@ export class AppComponent {
         const response = await this.modalService.showModal(ModalComponent, {
             context: {
                 dim: "#00000000",
-                message: "I'm the context"
+                message: "I'm the context",
             },
             fullscreen: false,
             viewContainerRef: this.vcRef,
@@ -41,7 +41,7 @@ export class AppComponent {
         const response = await this.modalService.showModal(ModalComponent, {
             context: {
                 dim: "#5C00FFDD",
-                message: "I'm the context"
+                message: "I'm the context",
             },
             fullscreen: false,
             viewContainerRef: this.vcRef,
@@ -54,7 +54,7 @@ export class AppComponent {
         const response = await this.modalService.showModal(ModalComponent, {
             context: {
                 dim: "#FFFF0000",
-                message: "I'm the context"
+                message: "I'm the context",
             },
             fullscreen: false,
             viewContainerRef: this.vcRef,
@@ -66,7 +66,7 @@ export class AppComponent {
         const response = await this.modalService.showModal(ModalComponent, {
             context: {
                 dim: "#5C00FFDD",
-                message: "I'm the context"
+                message: "I'm the context",
             },
             fullscreen: true,
             viewContainerRef: this.vcRef,
@@ -77,13 +77,12 @@ export class AppComponent {
     async openModal6() {
         const response = await this.modalService.showModal(ModalComponent, {
             context: {
-                message: "I'm the context"
+                message: "I'm the context",
             },
             fullscreen: true,
             viewContainerRef: this.vcRef,
         });
         console.log("Modal response: " + response);
     }
-
 
 }
