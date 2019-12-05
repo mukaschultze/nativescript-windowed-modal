@@ -23,9 +23,9 @@ const VueWindowedModal = {
                         if (entry) {
                             entry.closeCb(data);
                         }
-                    }
+                    },
                 };
-            }
+            },
         });
 
         Vue.prototype.$showModal = function(component, options) {
@@ -34,7 +34,7 @@ const VueWindowedModal = {
                 animated: true,
                 stretched: false,
                 dimAmount: 0.5,
-                ios: {}
+                ios: {},
             };
             // build options object with defaults
             options = { ...defaultOptions, ...options };
@@ -58,7 +58,7 @@ const VueWindowedModal = {
                     name: "ModalEntry",
                     parent: this.$root,
                     methods: { closeCb },
-                    render: (h) => h(component, { props: options.props })
+                    render: (h) => h(component, { props: options.props }),
                 });
                 const modalPage = navEntryInstance.$mount().$el.nativeView;
                 this.$el.nativeView.showModal(modalPage, {
@@ -68,11 +68,11 @@ const VueWindowedModal = {
                     animated: options.animated,
                     stretched: options.stretched,
                     dimAmount: options.dimAmount,
-                    ios: options.ios
+                    ios: options.ios,
                 });
             });
         };
-    }
+    },
 };
 
 export default VueWindowedModal;

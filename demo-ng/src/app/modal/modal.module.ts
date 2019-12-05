@@ -1,5 +1,5 @@
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { NativeScriptCommonModule } from 'nativescript-angular/common';
+import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
+import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { ModalComponent } from "./modal.component";
 
 @NgModule({
@@ -13,8 +13,8 @@ import { ModalComponent } from "./modal.component";
     ModalComponent,
   ],
   imports: [
-    NativeScriptCommonModule
+    NativeScriptCommonModule,
   ],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
 })
 export class ModalModule { }

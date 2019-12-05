@@ -78,7 +78,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
                     eventName: "activityBackPressed",
                     object: view,
                     activity: view._context,
-                    cancel: false
+                    cancel: false,
                 } as AndroidActivityBackPressedEventData;
 
                 // Fist fire application.android global event
@@ -221,7 +221,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
         cancelable: options.android ? !!options.android.cancelable : true,
         shownCallback: () => this._raiseShownModallyEvent(),
         dismissCallback: () => this.closeModal(),
-        dimAmount: options.dimAmount !== undefined ? +options.dimAmount : 0.5
+        dimAmount: options.dimAmount !== undefined ? +options.dimAmount : 0.5,
     };
 
     saveModal(dialogOptions);
