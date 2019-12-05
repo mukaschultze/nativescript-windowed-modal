@@ -12,7 +12,16 @@ matrix:
       before_install: echo
       install: cd src && npm ci && cd ..
       script: cd src && npm run ci.tslint
-    - stage: "Build"
+
+    - stage: "Build Plugin"
+      language: node_js
+      os: linux
+      node_js: "12"
+      before_install: echo
+      install: cd src && npm ci && cd ..
+      script: cd src && npm run ci.build
+    
+    - stage: "Demo"
       os: osx
       env:
         - Platform="iOS"
@@ -28,7 +37,7 @@ matrix:
       jdk: oraclejdk8
       script: cd demo && tns build android --env.uglify
     
-    - stage: "Build Angular"
+    - stage: "Demo Angular"
       os: osx
       env:
         - Platform="iOS"

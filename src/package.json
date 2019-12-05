@@ -18,6 +18,7 @@
         "demo.ng.ios": "cd ../demo-ng && tns run ios",
         "demo.ng.android": "cd ../demo-ng && tns run android",
         "demo.ng.addplugin": "cd ../demo-ng && npm run add.plugin",
+        "ci.build": "tsc",
         "ci.tslint": "cd .. && tslint '**/*.ts'"
     },
     "keywords": [
