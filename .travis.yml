@@ -9,6 +9,8 @@ matrix:
       language: node_js
       os: linux
       node_js: "12" 
+      before_install: echo
+      install: cd src && npm ci && cd ..
       script: cd src && npm run ci.tslint
     - stage: "Build"
       os: osx
