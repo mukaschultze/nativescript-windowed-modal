@@ -2,9 +2,7 @@
     "extends": "tslint:latest",
     "linterOptions": {
         "exclude": [
-            "src/node_modules",
-            "demo/node_modules",
-            "demo-ng/node_modules"
+            "**/node_modules/**/*"
         ]
     },
     "rules": {

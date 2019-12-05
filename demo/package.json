@@ -9,7 +9,6 @@
     }
   },
   "scripts": {
-    "ci.tslint": "tslint --config '../tslint.json' 'app/**/*.ts' --exclude '**/node_modules/**'",
     "add.plugin": "tns plugin remove nativescript-windowed-modal && tns plugin add ../src"
   },
   "dependencies": {
