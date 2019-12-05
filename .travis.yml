@@ -18,13 +18,13 @@ matrix:
       language: node_js
       node_js: "12"
       jdk: oraclejdk8
-      script: cd demo && npm run build.plugin && tns build ios --bundle --env.uglify
+      script: cd demo && tns build ios --env.uglify
     - language: android
       os: linux
       env:
         - Platform="Android"
       jdk: oraclejdk8
-      script: cd demo && npm run build.plugin && tns build android --bundle --env.uglify --env.snapshot
+      script: cd demo && tns build android --env.uglify --env.snapshot
     
     - stage: "Build Angular"
       os: osx
@@ -34,13 +34,13 @@ matrix:
       language: node_js 
       node_js: "12"
       jdk: oraclejdk8
-      script: cd demo-ng && npm run build.plugin && tns build ios --bundle --env.uglify
+      script: cd demo-ng && tns build ios --env.uglify
     - language: android
       os: linux
       env:
         - Platform="Android"
       jdk: oraclejdk8
-      script: cd demo-ng && npm run build.plugin && tns build android --bundle --env.uglify --env.snapshot
+      script: cd demo-ng && tns build android --env.uglify --env.snapshot
 
 before_install:
   - sudo pip install --ignore-installed --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
