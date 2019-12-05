@@ -26,7 +26,7 @@ matrix:
       env:
         - Platform="Android"
       jdk: oraclejdk8
-      script: cd demo && tns build android --env.uglify --env.snapshot
+      script: cd demo && tns build android --env.uglify
     
     - stage: "Build Angular"
       os: osx
@@ -42,7 +42,7 @@ matrix:
       env:
         - Platform="Android"
       jdk: oraclejdk8
-      script: cd demo-ng && tns build android --env.uglify --env.snapshot
+      script: cd demo-ng && tns build android --env.uglify
 
 before_install:
   - sudo pip install --ignore-installed --upgrade six # https://github.com/NativeScript/nativescript-cli/issues/3534
