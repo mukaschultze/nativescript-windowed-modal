@@ -43,7 +43,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
   viewCommon.prototype._showNativeModalView.call(this, parent, options);
 
   const backgroundColor: Color = this.backgroundColor;
-  const dimAmount = options.dimAmount ? options.dimAmount : 0.5;
+  const dimAmount = options.dimAmount !== undefined ? options.dimAmount : 0.5;
   if (backgroundColor) {
     this.backgroundColor = new Color(255 * dimAmount, backgroundColor.r, backgroundColor.g, backgroundColor.b);
   } else {
