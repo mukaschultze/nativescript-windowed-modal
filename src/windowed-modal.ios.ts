@@ -52,17 +52,17 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
     }
 
     if (options.fullscreen) {
-        controller.modalPresentationStyle = UIModalPresentationStyle.FullScreen;
+        controller.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
     } else {
-        controller.providesPresentationContextTransitionStyle = true;
-        controller.definesPresentationContext = true;
         controller.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
-        controller.modalTransitionStyle = UIModalTransitionStyle.CoverVertical;
-
-        controller.view.backgroundColor = dimmingColor ?
-            UIColor.colorWithRedGreenBlueAlpha(dimmingColor.r, dimmingColor.g, dimmingColor.b, dimmingColor.a) :
-            UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, dimAmount);
     }
+
+    controller.modalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+    controller.providesPresentationContextTransitionStyle = true;
+    controller.definesPresentationContext = true;
+    controller.view.backgroundColor = dimmingColor ?
+        UIColor.colorWithRedGreenBlueAlpha(dimmingColor.r, dimmingColor.g, dimmingColor.b, dimmingColor.a) :
+        UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, dimAmount);
 
     if (options.ios && options.ios.presentationStyle) {
         const presentationStyle = options.ios.presentationStyle;
