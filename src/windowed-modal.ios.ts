@@ -1,3 +1,4 @@
+import { Color } from "@nativescript/core/color";
 import * as viewModule from "@nativescript/core/ui/core/view";
 import { traceCategories, traceMessageType, traceWrite } from "@nativescript/core/ui/core/view-base";
 import { ExtendedShowModalOptions } from "./windowed-modal.common";
@@ -11,8 +12,6 @@ export function overrideModalViewMethod(): void {
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.ios.ts
 function iosModal(parent: any, options: ExtendedShowModalOptions) {
 
-    const dimAmount = options.dimAmount !== undefined ? +options.dimAmount : 0.5;
-    const dimmingColor = this.backgroundColor || (this.content ? this.content.backgroundColor : undefined);
     const parentWithController = viewModule.ios.getParentWithViewController(parent);
     if (!parentWithController) {
         traceWrite(`Could not find parent with viewController for ${parent} while showing modal view.`,
@@ -51,18 +50,20 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
         this.viewController = controller;
     }
 
-    if (options.fullscreen) {
-        controller.modalPresentationStyle = UIModalPresentationStyle.FullScreen;
-    } else {
-        controller.providesPresentationContextTransitionStyle = true;
-        controller.definesPresentationContext = true;
-        controller.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
-        controller.modalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+    controller.modalPresentationStyle = options.fullscreen ?
+        UIModalPresentationStyle.OverFullScreen :
+        UIModalPresentationStyle.OverCurrentContext;
 
-        controller.view.backgroundColor = dimmingColor ?
-            UIColor.colorWithRedGreenBlueAlpha(dimmingColor.r, dimmingColor.g, dimmingColor.b, dimmingColor.a) :
-            UIColor.colorWithRedGreenBlueAlpha(0, 0, 0, dimAmount);
-    }
+    controller.modalTransitionStyle = UIModalTransitionStyle.CoverVertical;
+    controller.providesPresentationContextTransitionStyle = true;
+    controller.definesPresentationContext = true;
+
+    const backgroundColor: Color = this.backgroundColor;
+    const dimAmount = options.dimAmount !== undefined ? options.dimAmount : 0.5;
+
+    this.backgroundColor = backgroundColor ?
+        new Color(255 * dimAmount, backgroundColor.r, backgroundColor.g, backgroundColor.b) :
+        new Color(255 * dimAmount, 0, 0, 0);
 
     if (options.ios && options.ios.presentationStyle) {
         const presentationStyle = options.ios.presentationStyle;

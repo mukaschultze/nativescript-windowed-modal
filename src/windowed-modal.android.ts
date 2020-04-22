@@ -40,26 +40,27 @@ export function overrideModalViewMethod(): void {
 
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.android.ts
 function androidModal(parent: any, options: ExtendedShowModalOptions) {
-
     viewCommon.prototype._showNativeModalView.call(this, parent, options);
 
-    if (!this.backgroundColor) {
-        this.backgroundColor = new Color("transparent");
-    }
+    const backgroundColor: Color = this.backgroundColor;
+    const dimAmount = options.dimAmount !== undefined ? options.dimAmount : 0.5;
 
-    // setTimeout(() => {
+    this.backgroundColor = backgroundColor ?
+        new Color(255 * dimAmount, backgroundColor.r, backgroundColor.g, backgroundColor.b) :
+        new Color(255 * dimAmount, 0, 0, 0);
+
     this.width = screen.mainScreen.widthDIPs + 1;
     this.height = screen.mainScreen.heightDIPs + 1;
     this.horizontalAlignment = "stretch";
     this.verticalAlignment = "stretch";
-    // }, 5);
 
     this._setupUI(parent._context);
     this._isAddedToNativeVisualTree = true;
 
     const initializeDialogFragment = () => {
-
-        if (DialogFragmentStatic) { return DialogFragmentStatic; }
+        if (DialogFragmentStatic) {
+            return DialogFragmentStatic;
+        }
 
         class CustomDialogImpl extends android.app.Dialog {
             constructor(public fragment: CustomDialogFragmentImpl, context: android.content.Context, themeResId: number) {
@@ -120,11 +121,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
                 this._shownCallback = options.shownCallback;
                 this.setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_TITLE, 0);
 
-                let theme = this.getTheme();
-                if (this._fullscreen) {
-                    // In fullscreen mode, get the application's theme.
-                    theme = this.getActivity().getApplicationInfo().theme;
-                }
+                const theme = this.getTheme();
 
                 const dialog = new CustomDialogImpl(this, this.getActivity(), theme);
 
@@ -158,14 +155,13 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onStart(): void {
                 super.onStart();
-                if (this._fullscreen) {
-                    const window = this.getDialog().getWindow();
-                    const length = android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-                    window.setLayout(length, length);
-                    // This removes the default backgroundDrawable so there are no margins.
-                    // window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.WHITE));
-                    window.setBackgroundDrawable(null);
-                }
+
+                const window = this.getDialog().getWindow();
+                const length = android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+                window.setLayout(length, length);
+                // This removes the default backgroundDrawable so there are no margins.
+                // window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.WHITE));
+                window.setBackgroundDrawable(null);
 
                 const owner = this.owner;
                 if (owner && !owner.isLoaded) {
@@ -230,5 +226,4 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
     this._raiseShowingModallyEvent();
 
     this._dialogFragment.show(parent._getRootFragmentManager(), this._domId.toString());
-
 }
