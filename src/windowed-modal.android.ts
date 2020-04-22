@@ -1,14 +1,14 @@
-import { android as androidApp, AndroidActivityBackPressedEventData } from '@nativescript/core/application';
-import { Color } from '@nativescript/core/color';
-import { screen } from '@nativescript/core/platform';
-import * as viewModule from '@nativescript/core/ui/core/view';
-import { ExtendedShowModalOptions } from './windowed-modal.common';
+import { android as androidApp, AndroidActivityBackPressedEventData } from "@nativescript/core/application";
+import { Color } from "@nativescript/core/color";
+import { screen } from "@nativescript/core/platform";
+import * as viewModule from "@nativescript/core/ui/core/view";
+import { ExtendedShowModalOptions } from "./windowed-modal.common";
 
 // tslint:disable-next-line:no-implicit-dependencies
-const viewCommon = require('@nativescript/core/ui/core/view/view-common').ViewCommon;
+const viewCommon = require("@nativescript/core/ui/core/view/view-common").ViewCommon;
 const modalMap = new Map<number, CustomDialogOptions>();
 
-const DOMID = '_domId';
+const DOMID = "_domId";
 
 function saveModal(options: CustomDialogOptions) {
   modalMap.set(options.owner._domId, options);
@@ -44,16 +44,15 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
   const backgroundColor: Color = this.backgroundColor;
   const dimAmount = options.dimAmount !== undefined ? options.dimAmount : 0.5;
-  if (backgroundColor) {
-    this.backgroundColor = new Color(255 * dimAmount, backgroundColor.r, backgroundColor.g, backgroundColor.b);
-  } else {
-    this.backgroundColor = new Color(255 * dimAmount, 0, 0, 0);
-  }
+
+  this.backgroundColor = backgroundColor ?
+    new Color(255 * dimAmount, backgroundColor.r, backgroundColor.g, backgroundColor.b) :
+    new Color(255 * dimAmount, 0, 0, 0);
 
   this.width = screen.mainScreen.widthDIPs + 1;
   this.height = screen.mainScreen.heightDIPs + 1;
-  this.horizontalAlignment = 'stretch';
-  this.verticalAlignment = 'stretch';
+  this.horizontalAlignment = "stretch";
+  this.verticalAlignment = "stretch";
 
   this._setupUI(parent._context);
   this._isAddedToNativeVisualTree = true;
@@ -76,12 +75,11 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
       public onBackPressed(): void {
         const view = this.fragment.owner;
-        const args = {
-          // tslint:disable-line
-          eventName: 'activityBackPressed',
+        const args = { // tslint:disable-line
+          eventName: "activityBackPressed",
           object: view,
           activity: view._context,
-          cancel: false
+          cancel: false,
         } as AndroidActivityBackPressedEventData;
 
         // Fist fire application.android global event
@@ -123,7 +121,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
         this._shownCallback = options.shownCallback;
         this.setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_TITLE, 0);
 
-        let theme = this.getTheme();
+        const theme = this.getTheme();
 
         const dialog = new CustomDialogImpl(this, this.getActivity(), theme);
 
@@ -131,11 +129,11 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
         // otherwise we might break component-level layout:
         // https://github.com/NativeScript/NativeScript/issues/5392
         if (!this._fullscreen && !this._stretched) {
-          this.owner.horizontalAlignment = 'center';
-          this.owner.verticalAlignment = 'middle';
+          this.owner.horizontalAlignment = "center";
+          this.owner.verticalAlignment = "middle";
         } else {
-          this.owner.horizontalAlignment = 'stretch';
-          this.owner.verticalAlignment = 'stretch';
+          this.owner.horizontalAlignment = "stretch";
+          this.owner.verticalAlignment = "stretch";
         }
 
         dialog.setCanceledOnTouchOutside(this._cancelable);
@@ -219,7 +217,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
     cancelable: options.android ? !!options.android.cancelable : true,
     shownCallback: () => this._raiseShownModallyEvent(),
     dismissCallback: () => this.closeModal(),
-    dimAmount: options.dimAmount !== undefined ? +options.dimAmount : 0.5
+    dimAmount: options.dimAmount !== undefined ? +options.dimAmount : 0.5,
   };
 
   saveModal(dialogOptions);

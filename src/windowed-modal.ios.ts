@@ -1,4 +1,4 @@
-import { Color } from '@nativescript/core/color';
+import { Color } from "@nativescript/core/color";
 import * as viewModule from "@nativescript/core/ui/core/view";
 import { traceCategories, traceMessageType, traceWrite } from "@nativescript/core/ui/core/view-base";
 import { ExtendedShowModalOptions } from "./windowed-modal.common";
@@ -50,11 +50,9 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
         this.viewController = controller;
     }
 
-    if (options.fullscreen) {
-        controller.modalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
-    } else {
-        controller.modalPresentationStyle = UIModalPresentationStyle.OverCurrentContext;
-    }
+    controller.modalPresentationStyle = options.fullscreen ?
+        UIModalPresentationStyle.OverFullScreen :
+        UIModalPresentationStyle.OverCurrentContext;
 
     controller.modalTransitionStyle = UIModalTransitionStyle.CoverVertical;
     controller.providesPresentationContextTransitionStyle = true;
@@ -62,11 +60,10 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
 
     const backgroundColor: Color = this.backgroundColor;
     const dimAmount = options.dimAmount !== undefined ? options.dimAmount : 0.5;
-    if (backgroundColor) {
-      this.backgroundColor = new Color(255 * dimAmount, backgroundColor.r, backgroundColor.g, backgroundColor.b);
-    } else {
-      this.backgroundColor = new Color(255 * dimAmount, 0, 0, 0);
-    }
+
+    this.backgroundColor = backgroundColor ?
+        new Color(255 * dimAmount, backgroundColor.r, backgroundColor.g, backgroundColor.b) :
+        new Color(255 * dimAmount, 0, 0, 0);
 
     if (options.ios && options.ios.presentationStyle) {
         const presentationStyle = options.ios.presentationStyle;
