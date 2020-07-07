@@ -88,8 +88,8 @@ You can pass extended options like this:
 | Property           | Type    | Platform | Default | Description                                                                              |
 | ------------------ | ------- | -------- | ------- | ---------------------------------------------------------------------------------------- |
 | dismissEnabled     | boolean | both     | true    | If set to true, the modal is allowed to close when touching outside of the content frame |
-| verticalPosition   | string  | both     | middle  | Uses the same options as HorizontalAlignment ("left" - "center" - "right" - "stretch")   |
-| horizontalPosition | string  | both     | center  | Uses the same options as VerticalAlignment ("top" - "middle" - "bottom" - "stretch")     |
+| verticalPosition   | string  | both     | middle  | Uses the same options as VerticalAlignment ("top" - "middle" - "bottom" - "stretch")     |
+| horizontalPosition | string  | both     | center  | Uses the same options as HorizontalAlignment ("left" - "center" - "right" - "stretch")   |
 
 ### Layout
 
