@@ -1,36 +1,34 @@
-import { Color } from "@nativescript/core/color";
-import * as viewModule from "@nativescript/core/ui/core/view";
-import { traceCategories, traceMessageType, traceWrite } from "@nativescript/core/ui/core/view-base";
+import { Color, IOSHelper, Trace, View } from "@nativescript/core";
 import { ExtendedShowModalOptions } from "./windowed-modal.common";
 // tslint:disable-next-line:no-implicit-dependencies
 const viewCommon = require("@nativescript/core/ui/core/view/view-common").ViewCommon;
 
 export function overrideModalViewMethod(): void {
-    (viewModule.View as any).prototype._showNativeModalView = iosModal;
+    (View as any).prototype._showNativeModalView = iosModal;
 }
 
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.ios.ts
 function iosModal(parent: any, options: ExtendedShowModalOptions) {
 
-    const parentWithController = viewModule.ios.getParentWithViewController(parent);
+    const parentWithController = IOSHelper.getParentWithViewController(parent);
     if (!parentWithController) {
-        traceWrite(`Could not find parent with viewController for ${parent} while showing modal view.`,
-            traceCategories.ViewHierarchy, traceMessageType.error);
+        Trace.write(`Could not find parent with viewController for ${parent} while showing modal view.`,
+            Trace.categories.ViewHierarchy, Trace.messageType.error);
 
         return;
     }
 
     const parentController = parentWithController.viewController;
     if (parentController.presentedViewController) {
-        traceWrite("Parent is already presenting view controller. Close the current modal page before showing another one!",
-            traceCategories.ViewHierarchy, traceMessageType.error);
+        Trace.write("Parent is already presenting view controller. Close the current modal page before showing another one!",
+            Trace.categories.ViewHierarchy, Trace.messageType.error);
 
         return;
     }
 
     if (!parentController.view || !parentController.view.window) {
-        traceWrite("Parent page is not part of the window hierarchy.",
-            traceCategories.ViewHierarchy, traceMessageType.error);
+        Trace.write("Parent page is not part of the window hierarchy.",
+            Trace.categories.ViewHierarchy, Trace.messageType.error);
 
         return;
     }
@@ -41,7 +39,7 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
     let controller = this.viewController;
     if (!controller) {
         const nativeView = this.ios || this.nativeViewProtected;
-        controller = viewModule.ios.UILayoutViewController.initWithOwner(new WeakRef(this));
+        controller = IOSHelper.UILayoutViewController.initWithOwner(new WeakRef(this));
 
         if (nativeView instanceof UIView) {
             controller.view.addSubview(nativeView);
@@ -71,7 +69,7 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
 
         if (presentationStyle === UIModalPresentationStyle.Popover) {
             const popoverPresentationController = controller.popoverPresentationController;
-            this._popoverPresentationDelegate = (viewModule.ios as any).UIPopoverPresentationControllerDelegateImp.initWithOwnerAndCallback(new WeakRef(this), this._closeModalCallback);
+            this._popoverPresentationDelegate = View.prototype.ios.UIPopoverPresentationControllerDelegateImp.initWithOwnerAndCallback(new WeakRef(this), this._closeModalCallback);
             popoverPresentationController.delegate = this._popoverPresentationDelegate;
             const view = parent.nativeViewProtected;
             // Note: sourceView and sourceRect are needed to specify the anchor location for the popover.
@@ -86,12 +84,16 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
 
     this._raiseShowingModallyEvent();
     const animated = options.animated === undefined ? true : !!options.animated;
-    (controller as any).animated = animated;
+    if (!this._modalAnimatedOptions) {
+        // track the user's animated options to use upon close as well
+        this._modalAnimatedOptions = [];
+    }
+    this._modalAnimatedOptions.push(animated);
+
     parentController.presentViewControllerAnimatedCompletion(controller, animated, null);
     const transitionCoordinator = parentController.transitionCoordinator;
     if (transitionCoordinator) {
-        UIViewControllerTransitionCoordinator.prototype.animateAlongsideTransitionCompletion
-            .call(transitionCoordinator, null, () => this._raiseShownModallyEvent());
+        transitionCoordinator.animateAlongsideTransitionCompletion(null, () => this._raiseShownModallyEvent());
     } else {
         // Apparently iOS 9+ stops all transitions and animations upon application suspend and transitionCoordinator becomes null here in this case.
         // Since we are not waiting for any transition to complete, i.e. transitionCoordinator is null, we can directly raise our shownModally event.
