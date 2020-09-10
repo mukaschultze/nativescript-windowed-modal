@@ -1,6 +1,4 @@
-import { android as androidApp, AndroidActivityBackPressedEventData } from "@nativescript/core/application";
-import { Color } from "@nativescript/core/color";
-import { screen } from "@nativescript/core/platform";
+import { AndroidActivityBackPressedEventData, Application, Color, Screen } from "@nativescript/core";
 import * as viewModule from "@nativescript/core/ui/core/view";
 import { ExtendedShowModalOptions } from "./windowed-modal.common";
 
@@ -49,8 +47,8 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
         new Color(255 * dimAmount, backgroundColor.r, backgroundColor.g, backgroundColor.b) :
         new Color(255 * dimAmount, 0, 0, 0);
 
-    this.width = screen.mainScreen.widthDIPs + 1;
-    this.height = screen.mainScreen.heightDIPs + 1;
+    this.width = Screen.mainScreen.widthDIPs + 1;
+    this.height = Screen.mainScreen.heightDIPs + 1;
     this.horizontalAlignment = "stretch";
     this.verticalAlignment = "stretch";
 
@@ -83,7 +81,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
                 } as AndroidActivityBackPressedEventData;
 
                 // Fist fire application.android global event
-                androidApp.notify(args);
+                Application.android.notify(args);
                 if (args.cancel) {
                     return;
                 }
