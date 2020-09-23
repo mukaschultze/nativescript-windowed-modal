@@ -1,10 +1,9 @@
-import * as observable from "@nativescript/core/data/observable";
-import { Page } from "@nativescript/core/ui/page";
 import { ExtendedShowModalOptions } from "nativescript-windowed-modal/windowed-modal.common";
+import { Page, EventData } from '@nativescript/core';
 
 let mainPage: Page;
 
-export function pageLoaded(args: observable.EventData) {
+export function pageLoaded(args: EventData) {
     mainPage = args.object as Page;
 }
 

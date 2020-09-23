@@ -1,8 +1,8 @@
 // this import should be first in order to load some required settings (like globals and reflect-metadata)
-import { platformNativeScriptDynamic } from "nativescript-angular/platform";
+import { platformNativeScriptDynamic } from "@nativescript/angular";
 
-import { registerElement } from "nativescript-angular/element-registry";
-import { ExtendedShowModalOptions, ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal";
+import { registerElement } from "@nativescript/angular";
+import { ModalStack, overrideModalViewMethod } from "nativescript-windowed-modal";
 import { AppModule } from "./app/app.module";
 
 overrideModalViewMethod();
