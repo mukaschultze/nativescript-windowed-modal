@@ -1,5 +1,5 @@
-﻿import * as application from "@nativescript/core/application";
 import { overrideModalViewMethod } from "nativescript-windowed-modal";
+import { Application } from '@nativescript/core';
 
 overrideModalViewMethod();
-application.run({ moduleName: "main-page" });
+Application.run({ moduleName: "main-page" });

@@ -83,22 +83,22 @@ function iosModal(parent: any, options: ExtendedShowModalOptions) {
     this.verticalAlignment = "stretch";
 
     this._raiseShowingModallyEvent();
-		const animated = options.animated === undefined ? true : !!options.animated;
-		if (!this._modalAnimatedOptions) {
+    const animated = options.animated === undefined ? true : !!options.animated;
+    if (!this._modalAnimatedOptions) {
         // track the user's animated options to use upon close as well
         this._modalAnimatedOptions = [];
-		}
-		this._modalAnimatedOptions.push(animated);
+    }
+    this._modalAnimatedOptions.push(animated);
 
     parentController.presentViewControllerAnimatedCompletion(controller, animated, null);
-		const transitionCoordinator = parentController.transitionCoordinator;
-		if (transitionCoordinator) {
+    const transitionCoordinator = parentController.transitionCoordinator;
+    if (transitionCoordinator) {
         transitionCoordinator.animateAlongsideTransitionCompletion(null, () => this._raiseShownModallyEvent());
-		} else {
+    } else {
         // Apparently iOS 9+ stops all transitions and animations upon application suspend and transitionCoordinator becomes null here in this case.
         // Since we are not waiting for any transition to complete, i.e. transitionCoordinator is null, we can directly raise our shownModally event.
         // Take a look at https://github.com/NativeScript/NativeScript/issues/2173 for more info and a sample project.
         this._raiseShownModallyEvent();
-		}
+    }
 
 }

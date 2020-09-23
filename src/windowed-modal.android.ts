@@ -1,5 +1,4 @@
-import { AndroidActivityBackPressedEventData, Application, Color, Screen } from "@nativescript/core";
-import * as viewModule from "@nativescript/core/ui/core/view";
+import { AndroidActivityBackPressedEventData, Application, Color, Screen, View } from "@nativescript/core";
 import { ExtendedShowModalOptions } from "./windowed-modal.common";
 
 // tslint:disable-next-line:no-implicit-dependencies
@@ -7,6 +6,8 @@ const viewCommon = require("@nativescript/core/ui/core/view/view-common").ViewCo
 const modalMap = new Map<number, CustomDialogOptions>();
 
 const DOMID = "_domId";
+
+const styleAnimationDialog = 16973826; // android.R.style.Animation_Dialog
 
 function saveModal(options: CustomDialogOptions) {
     modalMap.set(options.owner._domId, options);
@@ -20,11 +21,12 @@ function getModalOptions(domId: number): CustomDialogOptions {
     return modalMap.get(domId);
 }
 
-let DialogFragmentStatic;
+let DialogFragment;
 
 interface CustomDialogOptions {
-    owner: viewModule.View;
+    owner: View;
     fullscreen: boolean;
+    animated: boolean;
     stretched: boolean;
     cancelable: boolean;
     shownCallback: () => void;
@@ -33,7 +35,7 @@ interface CustomDialogOptions {
 }
 
 export function overrideModalViewMethod(): void {
-    (viewModule.View as any).prototype._showNativeModalView = androidModal;
+    (View as any).prototype._showNativeModalView = androidModal;
 }
 
 // https://github.com/NativeScript/NativeScript/blob/master/tns-core-modules/ui/core/view/view.android.ts
@@ -56,13 +58,15 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
     this._isAddedToNativeVisualTree = true;
 
     const initializeDialogFragment = () => {
-        if (DialogFragmentStatic) {
-            return DialogFragmentStatic;
+        if (DialogFragment) {
+            return;
         }
 
-        class CustomDialogImpl extends android.app.Dialog {
-            constructor(public fragment: CustomDialogFragmentImpl, context: android.content.Context, themeResId: number) {
+        @NativeClass
+        class DialogImpl extends android.app.Dialog {
+            constructor(public fragment: DialogFragmentImpl, context: android.content.Context, themeResId: number) {
                 super(context, themeResId);
+
                 return global.__native(this);
             }
 
@@ -73,12 +77,12 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onBackPressed(): void {
                 const view = this.fragment.owner;
-                const args = { // tslint:disable-line
-                    eventName: "activityBackPressed",
+                const args = <AndroidActivityBackPressedEventData>{
+                    eventName: 'activityBackPressed',
                     object: view,
                     activity: view._context,
                     cancel: false,
-                } as AndroidActivityBackPressedEventData;
+                };
 
                 // Fist fire application.android global event
                 Application.android.notify(args);
@@ -94,9 +98,11 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
             }
         }
 
-        class CustomDialogFragmentImpl extends androidx.fragment.app.DialogFragment {
-            public owner: viewModule.View;
+        @NativeClass
+        class DialogFragmentImpl extends androidx.fragment.app.DialogFragment {
+            public owner: View;
             private _fullscreen: boolean;
+            private _animated: boolean;
             private _stretched: boolean;
             private _cancelable: boolean;
             private _shownCallback: () => void;
@@ -110,28 +116,41 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onCreateDialog(savedInstanceState: android.os.Bundle): android.app.Dialog {
                 const ownerId = this.getArguments().getInt(DOMID);
-                const options = getModalOptions(ownerId); // tslint:disable-line
+                const options = getModalOptions(ownerId);
                 this.owner = options.owner;
+                // Set owner._dialogFragment to this in case the DialogFragment was recreated after app suspend
+                (this.owner as any)._dialogFragment = this;
                 this._fullscreen = options.fullscreen;
+                this._animated = options.animated;
                 this._cancelable = options.cancelable;
                 this._stretched = options.stretched;
                 this._dismissCallback = options.dismissCallback;
                 this._shownCallback = options.shownCallback;
                 this.setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_TITLE, 0);
 
-                const theme = this.getTheme();
+                let theme = this.getTheme();
+                if (this._fullscreen) {
+                    // In fullscreen mode, get the application's theme.
+                    theme = this.getActivity().getApplicationInfo().theme;
+                }
 
-                const dialog = new CustomDialogImpl(this, this.getActivity(), theme);
+                const dialog = new DialogImpl(this, this.getActivity(), theme);
 
                 // do not override alignment unless fullscreen modal will be shown;
                 // otherwise we might break component-level layout:
                 // https://github.com/NativeScript/NativeScript/issues/5392
                 if (!this._fullscreen && !this._stretched) {
-                    this.owner.horizontalAlignment = "center";
-                    this.owner.verticalAlignment = "middle";
+                    this.owner.horizontalAlignment = 'center';
+                    this.owner.verticalAlignment = 'middle';
                 } else {
-                    this.owner.horizontalAlignment = "stretch";
-                    this.owner.verticalAlignment = "stretch";
+                    this.owner.horizontalAlignment = 'stretch';
+                    this.owner.verticalAlignment = 'stretch';
+                }
+
+                // set the modal window animation
+                // https://github.com/NativeScript/NativeScript/issues/5989
+                if (this._animated) {
+                    dialog.getWindow().setWindowAnimations(styleAnimationDialog);
                 }
 
                 dialog.setCanceledOnTouchOutside(this._cancelable);
@@ -145,7 +164,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onCreateView(inflater: android.view.LayoutInflater, container: android.view.ViewGroup, savedInstanceState: android.os.Bundle): android.view.View {
                 const owner = this.owner;
-                (owner as any)._setupAsRootView(this.getActivity());
+                owner._setupAsRootView(this.getActivity());
                 owner._isAddedToNativeVisualTree = true;
 
                 return owner.nativeViewProtected;
@@ -153,17 +172,17 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onStart(): void {
                 super.onStart();
-
-                const window = this.getDialog().getWindow();
-                const length = android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-                window.setLayout(length, length);
-                // This removes the default backgroundDrawable so there are no margins.
-                // window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.WHITE));
-                window.setBackgroundDrawable(null);
+                if (this._fullscreen) {
+                    const window = this.getDialog().getWindow();
+                    const length = android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+                    window.setLayout(length, length);
+                    // This removes the default backgroundDrawable so there are no margins.
+                    window.setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(android.graphics.Color.WHITE));
+                }
 
                 const owner = this.owner;
                 if (owner && !owner.isLoaded) {
-                    (owner as any).callLoaded();
+                    owner.callLoaded();
                 }
 
                 this._shownCallback();
@@ -179,7 +198,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
                 const owner = this.owner;
                 if (owner && owner.isLoaded) {
-                    (owner as any).callUnloaded();
+                    owner.callUnloaded();
                 }
             }
 
@@ -191,7 +210,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
                     // Android calls onDestroy before onDismiss.
                     // Make sure we unload first and then call _tearDownUI.
                     if (owner.isLoaded) {
-                        (owner as any).callUnloaded();
+                        owner.callUnloaded();
                     }
 
                     owner._isAddedToNativeVisualTree = false;
@@ -199,20 +218,31 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
                 }
             }
         }
-        DialogFragmentStatic = CustomDialogFragmentImpl;
-    };
+
+        DialogFragment = DialogFragmentImpl;
+    }
 
     initializeDialogFragment();
-    const df = new DialogFragmentStatic();
+    const df = new DialogFragment();
     const args = new android.os.Bundle();
     args.putInt(DOMID, this._domId);
     df.setArguments(args);
 
+    let cancelable = true;
+
+    if (options.android && (<any>options).android.cancelable !== undefined) {
+        cancelable = !!(<any>options).android.cancelable;
+        console.log('ShowModalOptions.android.cancelable is deprecated. Use ShowModalOptions.cancelable instead.');
+    }
+
+    cancelable = options.cancelable !== undefined ? !!options.cancelable : cancelable;
+
     const dialogOptions: CustomDialogOptions = {
         owner: this,
         fullscreen: !!options.fullscreen,
+        animated: !!options.animated,
         stretched: !!options.stretched,
-        cancelable: options.android ? !!options.android.cancelable : true,
+        cancelable: cancelable,
         shownCallback: () => this._raiseShownModallyEvent(),
         dismissCallback: () => this.closeModal(),
         dimAmount: options.dimAmount !== undefined ? +options.dimAmount : 0.5,
