@@ -1,5 +1,5 @@
 {
-  "name": "nativescript-windowed-modal-enduco",
+  "name": "nativescript-windowed-modal",
   "version": "6.2.8",
   "description": "Consistent modals for Android and iOS.",
   "main": "index",
