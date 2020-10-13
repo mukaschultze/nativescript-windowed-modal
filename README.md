@@ -3,6 +3,7 @@
 [![npm version](https://badge.fury.io/js/nativescript-windowed-modal.svg)](http://badge.fury.io/js/nativescript-windowed-modal)
 [![npm downloads](https://img.shields.io/npm/dm/nativescript-windowed-modal.svg)](http://badge.fury.io/js/nativescript-windowed-modal)
 [![Build Status](https://travis-ci.com/mukaschultze/nativescript-windowed-modal.svg?branch=master)](https://travis-ci.com/mukaschultze/nativescript-windowed-modal)
+[![Nativescript Dependency](https://img.shields.io/npm/dependency-version/nativescript-windowed-modal/dev/@nativescript/core)](https://www.npmjs.com/package/@nativescript/core)
 
 This plugin overrides the `showModal()` from nativescript, making modals look and behave the same on Android and iOS.
 
