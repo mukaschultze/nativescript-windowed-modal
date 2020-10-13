@@ -1,5 +1,5 @@
+import { EventData, Page } from "@nativescript/core";
 import { ExtendedShowModalOptions } from "nativescript-windowed-modal/windowed-modal.common";
-import { Page, EventData } from '@nativescript/core';
 
 let mainPage: Page;
 

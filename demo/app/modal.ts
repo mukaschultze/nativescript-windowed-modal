@@ -1,4 +1,4 @@
-import { ShownModallyData, Page } from '@nativescript/core';
+import { Page, ShownModallyData } from "@nativescript/core";
 
 // tslint:disable-next-line:ban-types
 let closeCallback: Function;

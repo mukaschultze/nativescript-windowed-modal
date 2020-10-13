@@ -77,12 +77,14 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onBackPressed(): void {
                 const view = this.fragment.owner;
-                const args = <AndroidActivityBackPressedEventData>{
-                    eventName: 'activityBackPressed',
+
+                // tslint:disable-next-line
+                const args = {
+                    eventName: "activityBackPressed",
                     object: view,
                     activity: view._context,
                     cancel: false,
-                };
+                } as AndroidActivityBackPressedEventData;
 
                 // Fist fire application.android global event
                 Application.android.notify(args);
@@ -116,6 +118,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
             public onCreateDialog(savedInstanceState: android.os.Bundle): android.app.Dialog {
                 const ownerId = this.getArguments().getInt(DOMID);
+                // tslint:disable-next-line
                 const options = getModalOptions(ownerId);
                 this.owner = options.owner;
                 // Set owner._dialogFragment to this in case the DialogFragment was recreated after app suspend
@@ -140,11 +143,11 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
                 // otherwise we might break component-level layout:
                 // https://github.com/NativeScript/NativeScript/issues/5392
                 if (!this._fullscreen && !this._stretched) {
-                    this.owner.horizontalAlignment = 'center';
-                    this.owner.verticalAlignment = 'middle';
+                    this.owner.horizontalAlignment = "center";
+                    this.owner.verticalAlignment = "middle";
                 } else {
-                    this.owner.horizontalAlignment = 'stretch';
-                    this.owner.verticalAlignment = 'stretch';
+                    this.owner.horizontalAlignment = "stretch";
+                    this.owner.verticalAlignment = "stretch";
                 }
 
                 // set the modal window animation
@@ -220,7 +223,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
         }
 
         DialogFragment = DialogFragmentImpl;
-    }
+    };
 
     initializeDialogFragment();
     const df = new DialogFragment();
@@ -230,9 +233,9 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
 
     let cancelable = true;
 
-    if (options.android && (<any>options).android.cancelable !== undefined) {
-        cancelable = !!(<any>options).android.cancelable;
-        console.log('ShowModalOptions.android.cancelable is deprecated. Use ShowModalOptions.cancelable instead.');
+    if (options.android && (options as any).android.cancelable !== undefined) {
+        cancelable = !!(options as any).android.cancelable;
+        console.log("ShowModalOptions.android.cancelable is deprecated. Use ShowModalOptions.cancelable instead.");
     }
 
     cancelable = options.cancelable !== undefined ? !!options.cancelable : cancelable;
@@ -242,7 +245,7 @@ function androidModal(parent: any, options: ExtendedShowModalOptions) {
         fullscreen: !!options.fullscreen,
         animated: !!options.animated,
         stretched: !!options.stretched,
-        cancelable: cancelable,
+        cancelable,
         shownCallback: () => this._raiseShownModallyEvent(),
         dismissCallback: () => this.closeModal(),
         dimAmount: options.dimAmount !== undefined ? +options.dimAmount : 0.5,
