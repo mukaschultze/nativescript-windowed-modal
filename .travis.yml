@@ -12,11 +12,11 @@ matrix:
       before_install: echo
       install: cd src && npm ci && cd ..
       script: cd src && npm run ci.build
-    
+
     - stage: "Lint"
       language: node_js
       os: linux
-      node_js: "12" 
+      node_js: "12"
       before_install: echo
       install: cd src && npm ci && cd ..
       script: cd src && npm run ci.tslint
@@ -25,7 +25,7 @@ matrix:
       os: osx
       env:
         - Platform="iOS"
-      osx_image: xcode10.2
+      osx_image: xcode12.2
       language: node_js
       node_js: "12"
       jdk: oraclejdk8
@@ -36,13 +36,13 @@ matrix:
         - Platform="Android"
       jdk: oraclejdk8
       script: cd demo && tns build android --env.uglify
-    
+
     - stage: "Demo Angular"
       os: osx
       env:
         - Platform="iOS"
-      osx_image: xcode10.2
-      language: node_js 
+      osx_image: xcode12.2
+      language: node_js
       node_js: "12"
       jdk: oraclejdk8
       script: cd demo-ng && tns build ios --env.uglify
@@ -73,6 +73,6 @@ android:
     - extra-android-m2repository
     - sys-img-armeabi-v7a-android-21
   licenses:
-    - 'android-sdk-preview-license-52d11cd2'
-    - 'android-sdk-license-.+'
-    - 'google-gdk-license-.+'
+    - "android-sdk-preview-license-52d11cd2"
+    - "android-sdk-license-.+"
+    - "google-gdk-license-.+"
