@@ -1,4 +1,5 @@
-import * as viewModule from "@nativescript/core/ui/core/view";
-export interface ExtendedShowModalOptions extends viewModule.ShowModalOptions {
+import { ShowModalOptions } from "@nativescript/core";
+
+export interface ExtendedShowModalOptions extends ShowModalOptions {
     dimAmount?: number;
 }
